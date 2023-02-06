@@ -1,0 +1,19 @@
+@import url(../vendors/normalize.css);
+@import url(../vendors/fonts/fonts.css);
+
+@import url(../blocks/root/root.css);
+
+/*---HEADER---*/
+@import url(../blocks/header/header.css);
+
+/*---PROFILE---*/
+@import url(../blocks/profile/profile.css);
+
+/*---ELEMENTS---*/
+@import url(../blocks/elements/elements.css);
+
+/*---FOOTER---*/
+@import url(../blocks/footer/footer.css);
+
+/*---HOVER ССЫЛОК---*/
+@import url(../blocks/link-transparency/link-transparency.css);
