@@ -1,0 +1,26 @@
+.popup__form {
+  position: absolute;
+  left: calc(100vw/2 - 215px);
+  top: calc(100vh/2 - 165px);
+  width: 430px;
+  height: 330px;
+  background: #fff;
+  display:flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 34px 36px 37px 36px;
+  box-sizing: border-box;
+  border-radius: 10px;
+}
+
+@media (max-width:600px) {
+  .popup__form {
+    left: calc(100vw/2 - 141px);
+    top: calc(100vh/2 - 161px);
+    width: 282px;
+    height: 322px;
+    padding: 25px 22px;
+    gap: 30px;
+  }
+}
