@@ -24,6 +24,7 @@
 
 /*---ELEMENTS---*/
 @import url(../blocks/elements/elements.css);
+@import url(../blocks/elements/__item/elements__item.css);
 
 /*---FOOTER---*/
 @import url(../blocks/footer/footer.css);
