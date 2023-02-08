@@ -1,9 +1,7 @@
-/*.elements__item {
-  border: 1px solid red;
-
+.elements__item {
   width: 100%;
   height: 100%;
   object-fit: cover;
   border-radius: 10px;
   overflow: hidden;
-}*/
+}

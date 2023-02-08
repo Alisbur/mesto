@@ -10,12 +10,6 @@
   position: absolute;
   right: -42px;
   bottom: 10px;
-  opacity: 1;
-  transition: opacity 0.2s;
-}
-
-.profile__edit-button:hover {
-  opacity: 0.6;
 }
 
 @media (max-width: 800px){
