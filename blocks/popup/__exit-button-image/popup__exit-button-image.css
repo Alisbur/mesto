@@ -1,0 +1,11 @@
+.popup__exit-button-image {
+  width:32px;
+  height:32px;
+}
+
+@media (max-width: 600px) {
+  .popup__exit-button-image {
+    width:20px;
+    height:20px;
+  }
+}
