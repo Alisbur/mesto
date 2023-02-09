@@ -10,7 +10,7 @@
 
 @media (max-width: 800px) {
   .profile__name-field {
-    max-width: calc(400px - 20px - (800px - 100vw));
+    max-width: calc(450px - 20px - (800px - 100vw));
   }
 }
 
