@@ -10,7 +10,7 @@
   text-overflow: ellipsis;
 }
 
-@media (max-width: 800px){
+@media (max-width: 800px) {
   .profile__name {
     font-size: 27px;
     line-height: calc(32.68/27);

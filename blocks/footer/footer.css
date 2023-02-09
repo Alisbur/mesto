@@ -4,7 +4,7 @@
   padding-bottom: 60px;
 }
 
-@media (max-width: 600px){
+@media (max-width: 600px) {
   .footer {
     padding: 48px 19px 36px 19px;
     box-sizing: border-box;

@@ -7,7 +7,7 @@
   gap: 30px;
 }
 
-@media (max-width: 600px){
+@media (max-width: 600px) {
   .profile__pers-data {
     flex-direction: column;
     gap: 26px;

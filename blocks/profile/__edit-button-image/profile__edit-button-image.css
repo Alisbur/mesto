@@ -1,9 +1,9 @@
 .profile__edit-button-image {
-  width:24px;
-  height:24px;
+  width: 24px;
+  height: 24px;
 }
 
-@media (max-width: 800px){
+@media (max-width: 800px) {
   .profile__edit-button-image {
     width: 18px;
     height: 18px;

@@ -8,13 +8,13 @@
   position: relative;
 }
 
-@media (max-width: 800px){
+@media (max-width: 800px) {
   .profile__name-field {
     max-width: calc(400px - 20px - (800px - 100vw));
   }
 }
 
-@media (max-width: 600px){
+@media (max-width: 600px) {
   .profile__name-field {
     max-width: 65vw;
   }

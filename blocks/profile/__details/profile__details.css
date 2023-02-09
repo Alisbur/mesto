@@ -7,7 +7,7 @@
   gap: 6px;
 }
 
-@media (max-width: 600px){
+@media (max-width: 600px) {
   .profile__details {
     align-items: center;
     gap: 8px;

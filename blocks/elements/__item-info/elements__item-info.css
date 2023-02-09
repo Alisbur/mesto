@@ -1,6 +1,6 @@
 .elements__item-info {
   padding: 0 20px;
-  display:flex;
+  display: flex;
   justify-content: space-between;
   align-items: center;
   min-height: 80px;

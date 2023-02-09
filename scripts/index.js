@@ -12,8 +12,8 @@ const popupSaveButton = document.querySelector('.popup__save-button');
 /*Вызов popup-окна и копирование в него данных*/
 editButton.addEventListener('click', function () {
   popup.classList.remove('hidden');
-  popupInputName.value=currentNameValue.textContent;
-  popupInputProf.value=currentProfValue.textContent;
+  popupInputName.value = currentNameValue.textContent;
+  popupInputProf.value = currentProfValue.textContent;
 });
 
 /*Закрытие popup-окна без сохранения данных*/
@@ -22,10 +22,10 @@ popupExitButton.addEventListener('click', function () {
 });
 
 /*Функция-обработчик события submit на форме popup-окна*/
-function handleFormSubmit (evt) {
+function handleFormSubmit(evt) {
   evt.preventDefault();
-  currentNameValue.textContent=popupInputName.value;
-  currentProfValue.textContent=popupInputProf.value;
+  currentNameValue.textContent = popupInputName.value;
+  currentProfValue.textContent = popupInputProf.value;
   popup.classList.add('hidden');
 }
 

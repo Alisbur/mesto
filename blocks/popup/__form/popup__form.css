@@ -5,7 +5,7 @@
   width: 430px;
   height: 330px;
   background: #fff;
-  display:flex;
+  display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: flex-start;
