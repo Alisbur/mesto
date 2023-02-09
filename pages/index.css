@@ -29,7 +29,7 @@
 @import url(../blocks/elements/__item-title/elements__item-title.css);
 @import url(../blocks/elements/__item/elements__item.css);
 @import url(../blocks/elements/__like-button/elements__like-button.css);
-@import url(../blocks/elements/__like-image/elements__like-image.css);
+@import url(../blocks/elements/__like-button/_active/elements__like-button_active.css);
 @import url(../blocks/elements/__picture-container/elements__picture-container.css);
 
 /*---FOOTER---*/
@@ -47,3 +47,4 @@
 
 /*---ПРОЗРАЧНОСТЬ ССЫЛОК 0,6---*/
 @import url(../blocks/link-transparency/link-transparency.css);
+@import url(../blocks/hidden/hidden.css);
