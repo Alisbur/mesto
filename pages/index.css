@@ -16,7 +16,6 @@
 @import url(../blocks/profile/__details/profile__details.css);
 @import url(../blocks/profile/__edit-button-image/profile__edit-button-image.css);
 @import url(../blocks/profile/__edit-button/profile__edit-button.css);
-@import url(../blocks/profile/__module/profile__module.css);
 @import url(../blocks/profile/__name-field/profile__name-field.css);
 @import url(../blocks/profile/__name/profile__name.css);
 @import url(../blocks/profile/__pers-data/profile__pers-data.css);
@@ -38,13 +37,13 @@
 
 /*---POPUP---*/
 @import url(../blocks/popup/popup.css);
+@import url(../blocks/popup/_opened/popup_opened.css);
+@import url(../blocks/popup/__window/popup__window.css);
 @import url(../blocks/popup/__form/popup__form.css);
 @import url(../blocks/popup/__input/popup__input.css);
 @import url(../blocks/popup/__save-button/popup__save-button.css);
 @import url(../blocks/popup/__title/popup__title.css);
 @import url(../blocks/popup/__exit-button/__exit-button.css);
-@import url(../blocks/popup/__exit-button-image/popup__exit-button-image.css);
 
 /*---ПРОЗРАЧНОСТЬ ССЫЛОК 0,6---*/
 @import url(../blocks/link-transparency/link-transparency.css);
-@import url(../blocks/hidden/hidden.css);

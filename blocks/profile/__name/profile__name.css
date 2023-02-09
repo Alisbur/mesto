@@ -16,3 +16,9 @@
     line-height: calc(32.68/27);
   }
 }
+
+@media (max-width: 600px) {
+  .profile__name {
+    padding-left: calc(10px + 18px);
+  }
+}
