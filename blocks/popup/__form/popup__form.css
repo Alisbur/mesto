@@ -8,12 +8,12 @@
   align-items: flex-start;
   padding: 34px 36px 37px 36px;
   box-sizing: border-box;
-  gap: 30px;
+  gap: 28px;
 }
 
 @media (max-width:600px) {
   .popup__form {
     padding: 25px 22px;
-    gap: 27px;
+    gap: 25px;
   }
 }
