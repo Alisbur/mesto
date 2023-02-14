@@ -1,6 +1,20 @@
+//Элементы на главной странице
+const currentNameValue = document.querySelector('.profile__name');
+const currentProfValue = document.querySelector('.profile__profession');
+const editButton = document.querySelector('.profile__edit-button');
+const addButton = document.querySelector('.profile__add-button');
+
+//Элементы .popup
+const popup = document.querySelector('.popup');
+const popupForm = document.querySelector('[name="dataForm"]');
+
+//Элементы .image-popup
+const imagePopup = document.querySelector('.image-popup');
+
 //Убираем мелькание формы при обновлении страницы
 setTimeout(() => {
   popup.classList.add("popup_transition");
+  imagePopup.classList.add("image-popup_transition");
 }, 1);
 
 const initialCards = [
@@ -27,7 +41,34 @@ const initialCards = [
   {
     name: 'Санкт-Петербург, Россия',
     link: './images/saint-petersburg.jpg'
+  },
+
+  {
+    name: 'Архыз',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
+  },
+  {
+    name: 'Челябинская область',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
+  },
+  {
+    name: 'Иваново',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
+  },
+  {
+    name: 'Камчатка',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
+  },
+  {
+    name: 'Холмогорский район',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
+  },
+  {
+    name: 'Байкал',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
   }
+
+
 ]; 
 
 const elementsContainer = document.querySelector('.elements');
@@ -40,19 +81,20 @@ function addArticle(name, link) {
   article.querySelector('.elements__item-title').textContent = name;
   article.querySelector('.elements__like-button').addEventListener('click', function (evt) {evt.target.classList.toggle('elements__like-button_active')});
   article.querySelector('.elements__del-button').addEventListener('click', function () {article.remove()});
-  article.querySelector('.elements__item-image').addEventListener('click', function () {article.remove()});
+  article.querySelector('.elements__item-image').addEventListener('click', function () {
+    console.log('ПРивет');
+    document.querySelector('.image-popup').classList.add('image-popup_opened');
+    document.querySelector('.image-popup__title').textContent = name;
+    document.querySelector('.image-popup__image').src = link;
+    document.querySelector('.image-popup__image').alt = `Фото ${link}`;
+    document.querySelector('.image-popup__exit-button').addEventListener('click', function () {
+      document.querySelector('.image-popup').classList.remove('image-popup_opened');
+    });
+  });
   elementsContainer.prepend(article);
 }
 
 initialCards.forEach((el) => addArticle(el.name, el.link));
-
-
-const popup = document.querySelector('.popup');
-const currentNameValue = document.querySelector('.profile__name');
-const currentProfValue = document.querySelector('.profile__profession');
-const editButton = document.querySelector('.profile__edit-button');
-const addButton = document.querySelector('.profile__add-button');
-const popupForm = document.querySelector('[name="dataForm"]');
 
 /*Вызов popup-окна редактирования профиля и копирование в него данных*/
 editButton.addEventListener('click', function () {
