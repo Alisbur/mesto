@@ -1,3 +1,8 @@
+//Убираем мелькание формы при обновлении страницы
+setTimeout(() => {
+  popup.classList.add("popup_transition");
+}, 1);
+
 const initialCards = [
   {
     name: 'Архыз',
@@ -25,13 +30,24 @@ const initialCards = [
   }
 ]; 
 
+const elementsContainer = document.querySelector('.elements');
+
+function addArticle(name, link) {
+  const articleTemplate = document.querySelector('#article-id').content;
+  const article = articleTemplate.querySelector('.elements__item').cloneNode(true);
+  article.querySelector('.elements__item-image').src = link;
+  article.querySelector('.elements__item-image').alt = `Фото ${name}`;
+  article.querySelector('.elements__item-title').textContent = name;
+  article.querySelector('.elements__like-button').addEventListener('click', function (evt) {evt.target.classList.toggle('elements__like-button_active')});
+  article.querySelector('.elements__del-button').addEventListener('click', function () {article.remove()});
+  article.querySelector('.elements__item-image').addEventListener('click', function () {article.remove()});
+  elementsContainer.prepend(article);
+}
+
+initialCards.forEach((el) => addArticle(el.name, el.link));
+
+
 const popup = document.querySelector('.popup');
-
-//Убираем мелькание формы при обновлении страницы
-setTimeout(() => {
-  popup.classList.add("popup_transition");
-}, 1);
-
 const currentNameValue = document.querySelector('.profile__name');
 const currentProfValue = document.querySelector('.profile__profession');
 const editButton = document.querySelector('.profile__edit-button');
@@ -78,9 +94,8 @@ function handleFormSubmitEditProfile(evt) {
 /*Функция-обработчик события submit на форме popup-окна добавления изображения*/
 function handleFormSubmitAddPicture(evt) {
   evt.preventDefault();
-  if ((popupForm.secondInput.value) && (popupForm.firstInput.value)) {
-    console.log('операция 1');
-    console.log('операция 2');
+  if ((popupForm.firstInput.value)&&(popupForm.secondInput.value)) {
+    addArticle(popupForm.firstInput.value, popupForm.secondInput.value)
   }
   popup.classList.remove('popup_opened');
   popupForm.removeEventListener('submit', handleFormSubmitAddPicture, false);

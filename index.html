@@ -36,8 +36,9 @@
         </button>
       </section>
 
+
       <section class="elements" aria-label="Галерея фотографий">
-        <article class="elements__item">
+<!--    <article class="elements__item">
           <img src="./images/saint-petersburg.jpg" class="elements__item-image" alt="фото Санкт-Петербург">
           <button type="button" class="elements__del-button link-transparency"></button>
           <div class="elements__item-info">
@@ -79,7 +80,7 @@
             <h3 class="elements__item-title">Кейптаун, ЮАР</h3>
             <button type="button" class="elements__like-button" aria-label="Поставить лайк"></button>
           </div>
-        </article>
+        </article>-->
       </section>
     </main>
 
@@ -100,7 +101,18 @@
     </div>
   </div>
 
-  <script src="./scripts/index.js"></script>
+<template id="article-id">
+  <article class="elements__item">
+    <img src="" class="elements__item-image" alt="">
+    <button type="button" class="elements__del-button link-transparency"></button>
+    <div class="elements__item-info">
+      <h3 class="elements__item-title"></h3>
+      <button type="button" class="elements__like-button" aria-label="Поставить лайк"></button>
+    </div>
+  </article>
+</template>
+
+<script src="./scripts/index.js"></script>
 </body>
 
 </html>
