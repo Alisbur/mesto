@@ -17,6 +17,7 @@ setTimeout(() => {
   imagePopup.classList.add("image-popup_transition");
 }, 1);
 
+//Список мест и ссылок на изображения
 const initialCards = [
   {
     name: 'Кейптаун, ЮАР',
@@ -42,7 +43,6 @@ const initialCards = [
     name: 'Санкт-Петербург, Россия',
     link: './images/saint-petersburg.jpg'
   },
-
   {
     name: 'Архыз',
     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
@@ -67,20 +67,21 @@ const initialCards = [
     name: 'Байкал',
     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
   }
-
-
 ]; 
 
-const elementsContainer = document.querySelector('.elements');
-
+//Функция добавления карточки на страницу
 function addArticle(name, link) {
   const articleTemplate = document.querySelector('#article-id').content;
   const article = articleTemplate.querySelector('.elements__item').cloneNode(true);
   article.querySelector('.elements__item-image').src = link;
   article.querySelector('.elements__item-image').alt = `Фото ${name}`;
   article.querySelector('.elements__item-title').textContent = name;
-  article.querySelector('.elements__like-button').addEventListener('click', function (evt) {evt.target.classList.toggle('elements__like-button_active')});
-  article.querySelector('.elements__del-button').addEventListener('click', function () {article.remove()});
+  article.querySelector('.elements__like-button').addEventListener('click', function (evt) {
+    evt.target.classList.toggle('elements__like-button_active')
+  });
+  article.querySelector('.elements__del-button').addEventListener('click', function () {
+    article.remove()
+  });
   article.querySelector('.elements__item-image').addEventListener('click', function () {
     console.log('ПРивет');
     document.querySelector('.image-popup').classList.add('image-popup_opened');
@@ -88,12 +89,13 @@ function addArticle(name, link) {
     document.querySelector('.image-popup__image').src = link;
     document.querySelector('.image-popup__image').alt = `Фото ${link}`;
     document.querySelector('.image-popup__exit-button').addEventListener('click', function () {
-      document.querySelector('.image-popup').classList.remove('image-popup_opened');
+      imagePopup.classList.remove('image-popup_opened');
     });
   });
-  elementsContainer.prepend(article);
+  document.querySelector('.elements').prepend(article);
 }
 
+//Цикл добавления всех карточек из списка на страницу
 initialCards.forEach((el) => addArticle(el.name, el.link));
 
 /*Вызов popup-окна редактирования профиля и копирование в него данных*/
@@ -121,7 +123,8 @@ addButton.addEventListener('click', function () {
 /*Закрытие popup-окна без сохранения данных*/
 popupForm.closeBtn.addEventListener('click', function () {
   popup.classList.remove('popup_opened');
-  popupForm.removeEventListener('submit', handleFormSubmitEditProfile, false);
+  popupForm.removeEventListener('submit', handleFormSubmitEditProfile, false);  //При закрытии удаляю все listenerы,
+  popupForm.removeEventListener('submit', handleFormSubmitAddPicture, false);   //чтобы не оставались на форме
 });
 
 /*Функция-обработчик события submit на форме popup-окна изменения профиля*/
@@ -130,15 +133,15 @@ function handleFormSubmitEditProfile(evt) {
   currentNameValue.textContent = popupForm.firstInput.value;
   currentProfValue.textContent = popupForm.secondInput.value;
   popup.classList.remove('popup_opened');
-  popupForm.removeEventListener('submit', handleFormSubmitEditProfile, false);
+  popupForm.removeEventListener('submit', handleFormSubmitEditProfile, false);  //Удаляю listener, чтобы он не оставался на форме
 }
 
 /*Функция-обработчик события submit на форме popup-окна добавления изображения*/
 function handleFormSubmitAddPicture(evt) {
   evt.preventDefault();
-  if ((popupForm.firstInput.value)&&(popupForm.secondInput.value)) {
-    addArticle(popupForm.firstInput.value, popupForm.secondInput.value)
+  if ((popupForm.firstInput.value)&&(popupForm.secondInput.value)) {            //Если какие-то из данных не введены
+    addArticle(popupForm.firstInput.value, popupForm.secondInput.value)         //не добавляем карточку (минимальная проверка)
   }
   popup.classList.remove('popup_opened');
-  popupForm.removeEventListener('submit', handleFormSubmitAddPicture, false);
+  popupForm.removeEventListener('submit', handleFormSubmitAddPicture, false);  //Удаляю listener, чтобы он не оставался на форме
 }

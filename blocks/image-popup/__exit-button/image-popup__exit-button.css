@@ -6,7 +6,18 @@
   background-color: transparent;
   background-image: url(../../../images/close.svg);
   background-repeat: no-repeat;
+  background-size: 32px 32px;
   top: -40px;
   right: -40px;
   cursor: pointer;
+}
+
+@media (max-width:600px) {
+  .image-popup__exit-button {
+    width: 20px;
+    height: 20px;
+    background-size: 20px 20px;
+    top: -36px;
+    right: 0px;
+  }
 }
