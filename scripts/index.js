@@ -9,6 +9,10 @@ const popupInputProf = document.querySelector('.popup__input_type_prof');
 const popupExitButton = document.querySelector('.popup__exit-button');
 const popupSaveButton = document.querySelector('.popup__save-button');
 
+setTimeout(() => {
+  popup.classList.add("popup_transition");
+}, 1000);
+
 /*Вызов popup-окна и копирование в него данных*/
 editButton.addEventListener('click', function () {
   popup.classList.add('popup_opened');
