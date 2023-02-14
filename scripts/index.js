@@ -9,7 +9,6 @@ const currentNameValue = document.querySelector('.profile__name');
 const currentProfValue = document.querySelector('.profile__profession');
 const editButton = document.querySelector('.profile__edit-button');
 const addButton = document.querySelector('.profile__add-button');
-
 const popupForm = document.querySelector('[name="dataForm"]');
 
 /*Вызов popup-окна редактирования профиля и копирование в него данных*/
@@ -55,6 +54,7 @@ function handleFormSubmitAddPicture(evt) {
   if ((popupForm.secondInput.value) && (popupForm.firstInput.value)) {
     console.log('операция 1');
     console.log('операция 2');
-  } else console.log('неправильные значения');
+  }
+  popup.classList.remove('popup_opened');
   popupForm.removeEventListener('submit', handleFormSubmitAddPicture, false);
 }
