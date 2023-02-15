@@ -1,23 +1,44 @@
+//Элементы .popup
+const profilePopup = document.querySelector('.profile-popup');
+const cardPopup = document.querySelector('.card-popup');
+const imagePopup = document.querySelector('.image-popup');
+
+//Элементы .profilePopup
+const inputNameField = profilePopup.querySelector('.popup__input_type_name');
+const inputProfField = profilePopup.querySelector('.popup__input_type_prof');
+
+//Элементы .cardPopup
+const inputPlaceField = cardPopup.querySelector('.popup__input_type_place');
+const inputLinkField = cardPopup.querySelector('.popup__input_type_link');
+
 //Элементы на главной странице
 const currentNameValue = document.querySelector('.profile__name');
 const currentProfValue = document.querySelector('.profile__profession');
 const editButton = document.querySelector('.profile__edit-button');
 const addButton = document.querySelector('.profile__add-button');
 
-//Элементы .popup
-const popup = document.querySelector('.popup');
-const popupForm = document.querySelector('[name="dataForm"]');
-
-//Элементы .image-popup
-const imagePopup = document.querySelector('.image-popup');
-
-//Убираем мелькание формы при обновлении страницы
+//Убираем мелькание попапов при обновлении страницы
 setTimeout(() => {
-  popup.classList.add("popup_transition");
-  imagePopup.classList.add("image-popup_transition");
+  profilePopup.classList.add("popup_transition");
+  cardPopup.classList.add("popup_transition");
+  imagePopup.classList.add("popup_transition");
 }, 1);
 
-//Список мест и ссылок на изображения
+//Функция включения popup
+function openPopup(popup) {
+  popup.classList.add("popup_opened");
+}
+
+//Функция выключения popup
+function closePopup(popup) {
+  popup.classList.remove("popup_opened");
+}
+
+//Выключение соответствующего popup нажатием на крестик
+const exitBtns = document.querySelectorAll('.popup__exit-button');
+exitBtns.forEach((btn) => btn.addEventListener('click', (evt) => closePopup(evt.target.closest('.popup'))));
+
+//Список мест и ссылок на изображения 6 из задания + 6 из ПР4
 const initialCards = [
   {
     name: 'Кейптаун, ЮАР',
@@ -67,7 +88,7 @@ const initialCards = [
     name: 'Байкал',
     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
   }
-]; 
+];
 
 //Функция добавления карточки на страницу
 function addArticle(name, link) {
@@ -83,14 +104,10 @@ function addArticle(name, link) {
     article.remove()
   });
   article.querySelector('.elements__item-image').addEventListener('click', function () {
-    console.log('ПРивет');
-    document.querySelector('.image-popup').classList.add('image-popup_opened');
-    document.querySelector('.image-popup__title').textContent = name;
-    document.querySelector('.image-popup__image').src = link;
-    document.querySelector('.image-popup__image').alt = `Фото ${link}`;
-    document.querySelector('.image-popup__exit-button').addEventListener('click', function () {
-      imagePopup.classList.remove('image-popup_opened');
-    });
+    openPopup(imagePopup);
+    imagePopup.querySelector('.popup__image-subtitle').textContent = name;
+    imagePopup.querySelector('.popup__image').src = link;
+    imagePopup.querySelector('.popup__image').alt = `Фото ${name}`;
   });
   document.querySelector('.elements').prepend(article);
 }
@@ -98,50 +115,36 @@ function addArticle(name, link) {
 //Цикл добавления всех карточек из списка на страницу
 initialCards.forEach((el) => addArticle(el.name, el.link));
 
-/*Вызов popup-окна редактирования профиля и копирование в него данных*/
-editButton.addEventListener('click', function () {
-  popup.classList.add('popup_opened');
-  popupForm.querySelector('.popup__title').textContent="Редактировать профиль";
-  popupForm.firstInput.value = currentNameValue.textContent;
-  popupForm.secondInput.value = currentProfValue.textContent;
-  popupForm.submitBtn.textContent = "Сохранить";
-  popupForm.addEventListener('submit', handleFormSubmitEditProfile);
+//Вызов popup-окна редактирования профиля нажатием на кнопку с карандашом
+editButton.addEventListener('click', () => {
+  openPopup(profilePopup);
+  inputNameField.value = currentNameValue.textContent;
+  inputProfField.value = currentProfValue.textContent;
 });
 
-/*Вызов popup-окна добавления изображений*/
+//Обработка submit в форме popup-окна редактирования профиля
+function handleProfilePopupFormSubmit(evt) {
+  evt.preventDefault();
+  currentNameValue.textContent = inputNameField.value;
+  currentProfValue.textContent = inputProfField.value;
+  closePopup(profilePopup);
+}
+
+profilePopup.querySelector('.popup__form').addEventListener('submit', handleProfilePopupFormSubmit);
+
+//Вызов popup-окна добавления карточки нажатием на кнопку с крестиком
 addButton.addEventListener('click', function () {
-  popup.classList.add('popup_opened');
-  popupForm.querySelector('.popup__title').textContent="Новое место";
-  popupForm.firstInput.value = "";
-  popupForm.secondInput.value = "";
-  popupForm.firstInput.placeholder="Название";
-  popupForm.secondInput.placeholder="Ссылка на картинку";
-  popupForm.submitBtn.textContent = "Создать";
-  popupForm.addEventListener('submit', handleFormSubmitAddPicture);
+  openPopup(cardPopup);
+  inputPlaceField.value = "";
+  inputLinkField.value = "";
 });
 
-/*Закрытие popup-окна без сохранения данных*/
-popupForm.closeBtn.addEventListener('click', function () {
-  popup.classList.remove('popup_opened');
-  popupForm.removeEventListener('submit', handleFormSubmitEditProfile, false);  //При закрытии удаляю все listenerы,
-  popupForm.removeEventListener('submit', handleFormSubmitAddPicture, false);   //чтобы не оставались на форме
-});
-
-/*Функция-обработчик события submit на форме popup-окна изменения профиля*/
-function handleFormSubmitEditProfile(evt) {
+//Обработка submit в форме popup-окна добавления карточки
+function handleCardPopupFormSubmit(evt) {
   evt.preventDefault();
-  currentNameValue.textContent = popupForm.firstInput.value;
-  currentProfValue.textContent = popupForm.secondInput.value;
-  popup.classList.remove('popup_opened');
-  popupForm.removeEventListener('submit', handleFormSubmitEditProfile, false);  //Удаляю listener, чтобы он не оставался на форме
+  if ((inputPlaceField.value) && (inputLinkField.value))
+    addArticle(inputPlaceField.value, inputLinkField.value);
+  closePopup(cardPopup);
 }
 
-/*Функция-обработчик события submit на форме popup-окна добавления изображения*/
-function handleFormSubmitAddPicture(evt) {
-  evt.preventDefault();
-  if ((popupForm.firstInput.value)&&(popupForm.secondInput.value)) {            //Если какие-то из данных не введены
-    addArticle(popupForm.firstInput.value, popupForm.secondInput.value)         //не добавляем карточку (минимальная проверка)
-  }
-  popup.classList.remove('popup_opened');
-  popupForm.removeEventListener('submit', handleFormSubmitAddPicture, false);  //Удаляю listener, чтобы он не оставался на форме
-}
+cardPopup.querySelector('.popup__form').addEventListener('submit', handleCardPopupFormSubmit);
