@@ -47,11 +47,11 @@
 
   <div class="popup profile-popup">
     <div class="popup__form-container">
-      <form class="popup__form" id="popup-form" name="dataForm">
+      <form class="popup__form" id="profile-popup-form" name="profilePopupForm">
         <h2 class="popup__title">Редактировать профиль</h2>
         <input type="text" class="popup__input popup__input_type_name" placeholder="Введите имя" name="nameInput">
         <input type="text" class="popup__input popup__input_type_prof" placeholder="Введите профессию" name="profInput">
-        <button type="submit" class="popup__save-button" name="profileSubmitBtn">Сохранить</button>
+        <button type="submit" class="popup__save-button" name="submitBtn">Сохранить</button>
         <button type="button" class="popup__exit-button link-transparency" name="closeBtn"
           aria-label="Закрыть окно"></button>
       </form>
@@ -60,12 +60,12 @@
 
   <div class="popup card-popup">
     <div class="popup__form-container">
-      <form class="popup__form" id="popup-form" name="dataForm">
+      <form class="popup__form" id="card-popup-form" name="cardPopupForm">
         <h2 class="popup__title">Новое место</h2>
         <input type="text" class="popup__input popup__input_type_place" placeholder="Введите название места"
           name="placeInput">
-        <input type="text" class="popup__input popup__input_type_link" placeholder="Введите ссылку" name="nameInput">
-        <button type="submit" class="popup__save-button" name="cardSubmitBtn">Создать</button>
+        <input type="text" class="popup__input popup__input_type_link" placeholder="Введите ссылку" name="linkInput">
+        <button type="submit" class="popup__save-button" name="submitBtn">Создать</button>
         <button type="button" class="popup__exit-button link-transparency" name="closeBtn"
           aria-label="Закрыть окно"></button>
       </form>
@@ -83,7 +83,7 @@
 
   <template id="article-id">
     <article class="elements__item">
-      <img src="" class="elements__item-image" alt="">
+      <img src="#" class="elements__item-image" alt="">
       <button type="button" class="elements__del-button link-transparency"></button>
       <div class="elements__item-info">
         <h3 class="elements__item-title"></h3>
