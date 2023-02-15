@@ -45,38 +45,54 @@
     </footer>
   </div>
 
-  <div class="popup">
-    <div class="popup__container">
+  <div class="popup profile-popup">
+    <div class="popup__form-container">
       <form class="popup__form" id="popup-form" name="dataForm">
-        <h2 class="popup__title"></h2>
-        <input type="text" class="popup__input popup__input_type_name" name="firstInput">
-        <input type="text" class="popup__input popup__input_type_prof" name="secondInput">
-        <button type="submit" class="popup__save-button" name="submitBtn"></button>
-        <button type="button" class="popup__exit-button link-transparency" name="closeBtn" aria-label="Закрыть окно"></button>
+        <h2 class="popup__title">Редактировать профиль</h2>
+        <input type="text" class="popup__input popup__input_type_name" placeholder="Введите имя" name="nameInput">
+        <input type="text" class="popup__input popup__input_type_prof" placeholder="Введите профессию" name="profInput">
+        <button type="submit" class="popup__save-button" name="profileSubmitBtn">Сохранить</button>
+        <button type="button" class="popup__exit-button link-transparency" name="closeBtn"
+          aria-label="Закрыть окно"></button>
       </form>
     </div>
   </div>
 
-  <div class="image-popup">
-    <div class="image-popup__container">
-      <img src="" class="image-popup__image" alt="">
-      <button type="button" class="image-popup__exit-button link-transparency" name="closeBtn" aria-label="Закрыть окно"></button>
-      <h2 class="image-popup__title"></h2>
+  <div class="popup card-popup">
+    <div class="popup__form-container">
+      <form class="popup__form" id="popup-form" name="dataForm">
+        <h2 class="popup__title">Новое место</h2>
+        <input type="text" class="popup__input popup__input_type_place" placeholder="Введите название места"
+          name="placeInput">
+        <input type="text" class="popup__input popup__input_type_link" placeholder="Введите ссылку" name="nameInput">
+        <button type="submit" class="popup__save-button" name="cardSubmitBtn">Создать</button>
+        <button type="button" class="popup__exit-button link-transparency" name="closeBtn"
+          aria-label="Закрыть окно"></button>
+      </form>
     </div>
   </div>
 
-<template id="article-id">
-  <article class="elements__item">
-    <img src="" class="elements__item-image" alt="">
-    <button type="button" class="elements__del-button link-transparency"></button>
-    <div class="elements__item-info">
-      <h3 class="elements__item-title"></h3>
-      <button type="button" class="elements__like-button" aria-label="Поставить лайк"></button>
+  <div class="popup image-popup">
+    <div class="popup__image-container">
+      <img src="#" class="popup__image" alt="">
+      <button type="button" class="popup__exit-button link-transparency" name="closeBtn"
+        aria-label="Закрыть окно"></button>
+      <h3 class="popup__image-subtitle"></h3>
     </div>
-  </article>
-</template>
+  </div>
 
-<script src="./scripts/index.js"></script>
+  <template id="article-id">
+    <article class="elements__item">
+      <img src="" class="elements__item-image" alt="">
+      <button type="button" class="elements__del-button link-transparency"></button>
+      <div class="elements__item-info">
+        <h3 class="elements__item-title"></h3>
+        <button type="button" class="elements__like-button" aria-label="Поставить лайк"></button>
+      </div>
+    </article>
+  </template>
+
+  <script src="./scripts/index.js"></script>
 </body>
 
 </html>
