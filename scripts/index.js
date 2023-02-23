@@ -34,9 +34,26 @@ setTimeout(() => {
   imagePopup.classList.add("popup_transition");
 }, 1);
 
+let lastPopup;
+
 //Функция включения popup
 function openPopup(popup) {
+  lastPopup = popup; 
   popup.classList.add("popup_opened");
+  popup.addEventListener("click", handlerPopupCloseOnClick);
+  window.addEventListener("keydown", handlerPopupCloseOnEscKeyDown);
+}
+
+function handlerPopupCloseOnClick(evt) {
+  closePopup(evt.target);
+  evt.target.removeEventListener("click", handlerPopupCloseOnClick);
+}
+
+function handlerPopupCloseOnEscKeyDown(key) {
+  if (key.keyCode === 27) {
+    closePopup(lastPopup);
+    window.removeEventListener("keydown", handlerPopupCloseOnEscKeyDown);
+  }
 }
 
 //Функция выключения popup
@@ -100,7 +117,7 @@ const initialCards = [
   }
 ];
 
-//Функция добавления карточки на страницу
+//Функция создания новой карточки
 function createCard(name, link) {
   const newCard = newCardTemplate.cloneNode(true);
   const newCardImage = newCard.querySelector('.elements__item-image');
@@ -123,6 +140,7 @@ function createCard(name, link) {
   return(newCard);
 }
 
+//Функция добавления карточки на страницу
 function addCard(card) {
   elements.prepend(card);
 }
