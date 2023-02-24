@@ -49,9 +49,15 @@
     <div class="popup__form-container">
       <form class="popup__form" id="profile-popup-form" name="profilePopupForm">
         <h2 class="popup__title">Редактировать профиль</h2>
-        <input type="text" class="popup__input popup__input_type_name" placeholder="Введите имя" name="nameInput">
-        <input type="text" class="popup__input popup__input_type_prof" placeholder="Введите профессию" name="profInput">
-        <button type="submit" class="popup__save-button" name="submitBtn">Сохранить</button>
+        <fieldset class="popup__fieldset">
+          <input type="text" class="popup__input popup__input_type_name" placeholder="Введите имя" name="nameInput">
+          <span class="popup__input-error nameInput-error">ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddма</span>
+        </fieldset>
+        <fieldset class="popup__fieldset">
+          <input type="text" class="popup__input popup__input_type_prof" placeholder="Введите профессию" name="profInput">
+          <span class="popup__input-error profInput-error">Здесь может быть ваша реклама</span>
+        </fieldset>
+          <button type="submit" class="popup__save-button" name="submitBtn">Сохранить</button>
         <button type="button" class="popup__exit-button link-transparency" name="closeBtn"
           aria-label="Закрыть окно"></button>
       </form>
