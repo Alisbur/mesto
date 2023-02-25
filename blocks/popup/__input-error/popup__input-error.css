@@ -10,4 +10,5 @@
   max-width: 100%;
   min-height: 32px;
   word-break: break-word;
+  visibility: hidden;
 }

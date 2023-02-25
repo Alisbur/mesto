@@ -46,19 +46,19 @@ function openPopup(popup) {
 
 function handlerPopupCloseOnClick(evt) {
   closePopup(evt.target);
-  evt.target.removeEventListener("click", handlerPopupCloseOnClick);
 }
 
 function handlerPopupCloseOnEscKeyDown(key) {
   if (key.keyCode === 27) {
-    closePopup(lastPopup);
-    window.removeEventListener("keydown", handlerPopupCloseOnEscKeyDown);
+    closePopup(document.querySelector('.popup_opened'));
   }
 }
 
 //Функция выключения popup
 function closePopup(popup) {
   popup.classList.remove("popup_opened");
+  popup.removeEventListener("click", handlerPopupCloseOnClick);
+  window.removeEventListener("keydown", handlerPopupCloseOnEscKeyDown);
 }
 
 //Выключение соответствующего popup нажатием на крестик
@@ -151,6 +151,7 @@ initialCards.forEach((el) => addCard(createCard(el.name, el.link)));
 //Вызов popup-окна редактирования профиля нажатием на кнопку с карандашом
 editButton.addEventListener('click', () => {
   openPopup(profilePopup);
+  document.forms["profilePopupForm"].nam
   inputNameField.value = currentNameValue.textContent;
   inputProfField.value = currentProfValue.textContent;
 });
@@ -174,9 +175,9 @@ addButton.addEventListener('click', function () {
 //Обработка submit в форме popup-окна добавления карточки
 function handleCardPopupFormSubmit(evt) {
   evt.preventDefault();
-  if ((inputPlaceField.value) && (inputLinkField.value))
-    addCard(createCard(inputPlaceField.value, inputLinkField.value));
+  addCard(createCard(inputPlaceField.value, inputLinkField.value));
   evt.target.reset();
+  evt.target.elements.submitBtn.classList.add('popup__save-button_inactive');/*.elements.submitBtn.classList.add('popup__save-button_inactive');*/
   closePopup(cardPopup);
 }
 

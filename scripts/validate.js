@@ -1,31 +1,66 @@
-/*
-//Элементы .popup
-const profilePopup = document.querySelector('.profile-popup');
-const cardPopup = document.querySelector('.card-popup');
-const imagePopup = document.querySelector('.image-popup');
+//Выводим сообщение об ошибке и меняем стиль поля ввода на содержащий ошибку
+function showInputError (formElement, inputElement, errorMessage) {
+  const errorElement = formElement.querySelector(`.${inputElement.name}-error`);
+  inputElement.classList.add('popup__input_type_error');
+  errorElement.textContent = errorMessage;
+};
 
-//Элементы .profilePopup
-const inputNameField = profilePopup.querySelector('.popup__input_type_name');
-const inputProfField = profilePopup.querySelector('.popup__input_type_prof');
+//Скрываем сообщение об ошибке и меняем стиль поля ввода на нормальный
+function hideInputError (formElement, inputElement) {
+  const errorElement = formElement.querySelector(`.${inputElement.name}-error`);
+  inputElement.classList.remove('popup__input_type_error');
+  errorElement.textContent = '';
+};
 
-//Элементы .cardPopup
-const inputPlaceField = cardPopup.querySelector('.popup__input_type_place');
-const inputLinkField = cardPopup.querySelector('.popup__input_type_link');
+//Проверяем корректность ввода в поле
+function checkInputValidity (formElement, inputElement) {
+  if (!inputElement.validity.valid) {
+    showInputError(formElement, inputElement, inputElement.validationMessage);
+  } else {
+    hideInputError(formElement, inputElement);
+  }
+};
 
-//Элементы .imagePopup
-const popupImage = imagePopup.querySelector('.popup__image');
-const popupImageTitle = imagePopup.querySelector('.popup__image-subtitle');
+//Устанавливаем лисенеры ввода на поля ввода и меняем состояние кнопки
+function setEventListeners (formElement) {
+  const inputList = Array.from(formElement.querySelectorAll('.popup__input'));
+  const buttonElement = formElement.querySelector('.popup__save-button');
+  toggleButtonState(inputList, buttonElement);
+  inputList.forEach((inputElement) => {
+    inputElement.addEventListener('input', () => {
+      checkInputValidity(formElement, inputElement);
+      toggleButtonState(inputList, buttonElement);
+    });
+  });
+};
 
-//Элементы на главной странице
-const currentNameValue = document.querySelector('.profile__name');
-const currentProfValue = document.querySelector('.profile__profession');
-const editButton = document.querySelector('.profile__edit-button');
-const addButton = document.querySelector('.profile__add-button');
+//Включаем валидацию для всех форм
+function enableValidation () {
+  formList = Array.from(document.querySelectorAll('.popup__form'));
+  formList.forEach((formElement) => setEventListeners(formElement));
+};
 
-//Блок Elements для добавления карточек>
-const elements = document.querySelector('.elements');
+//Проверяем есть ли среди полей ввода формы те, которые не проходят валидацию
+function hasInvalidInput (inputList) {
+  return inputList.some((el) => !el.validity.valid);
+}
 
-//Шаблон вёрстки новой карточки
-const newCardTemplate = document.querySelector('#article-id').content.querySelector('.elements__item');*/
+//Функция смены состояния кнопки с активной на неактивную
+function toggleButtonState (inputList, buttonElement) {
+  if (hasInvalidInput(inputList)) {
+    buttonElement.classList.add('popup__save-button_inactive');
+  } else {
+    buttonElement.classList.remove('popup__save-button_inactive');
+  }
+}
 
-document.forms["profilePopupForm"].elements.submitBtn.classList.add('popup__save-button_inactive');
+enableValidation();
+
+({
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__save-button',
+  inactiveButtonClass: 'popup__save-button_inactive',
+  inputErrorClass: 'popup__input_type_error',
+  errorClass: 'popup__input-error_visible'
+});
