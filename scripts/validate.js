@@ -3,6 +3,7 @@ function showInputError (formElement, inputElement, errorMessage) {
   const errorElement = formElement.querySelector(`.${inputElement.name}-error`);
   inputElement.classList.add('popup__input_type_error');
   errorElement.textContent = errorMessage;
+  errorElement.classList.add('popup__input-error_visible');
 };
 
 //Скрываем сообщение об ошибке и меняем стиль поля ввода на нормальный
@@ -10,6 +11,7 @@ function hideInputError (formElement, inputElement) {
   const errorElement = formElement.querySelector(`.${inputElement.name}-error`);
   inputElement.classList.remove('popup__input_type_error');
   errorElement.textContent = '';
+  errorElement.classList.remove('popup__input-error_visible');
 };
 
 //Проверяем корректность ввода в поле
