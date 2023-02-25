@@ -40,7 +40,7 @@ let lastPopup;
 function openPopup(popup) {
   lastPopup = popup; 
   popup.classList.add("popup_opened");
-  popup.addEventListener("click", handlerPopupCloseOnClick);
+  popup.addEventListener("mousedown", handlerPopupCloseOnClick);
   window.addEventListener("keydown", handlerPopupCloseOnEscKeyDown);
 }
 
@@ -151,9 +151,9 @@ initialCards.forEach((el) => addCard(createCard(el.name, el.link)));
 //Вызов popup-окна редактирования профиля нажатием на кнопку с карандашом
 editButton.addEventListener('click', () => {
   openPopup(profilePopup);
-  document.forms["profilePopupForm"].nam
   inputNameField.value = currentNameValue.textContent;
   inputProfField.value = currentProfValue.textContent;
+  validateFormNow(document.forms["profilePopupForm"]);
 });
 
 //Обработка submit в форме popup-окна редактирования профиля
@@ -170,6 +170,7 @@ document.forms["profilePopupForm"].addEventListener('submit', handleProfilePopup
 //Вызов popup-окна добавления карточки нажатием на кнопку с крестиком
 addButton.addEventListener('click', function () {
   openPopup(cardPopup);
+  validateFormNow(document.forms["cardPopupForm"]);
 });
 
 //Обработка submit в форме popup-окна добавления карточки
@@ -177,7 +178,7 @@ function handleCardPopupFormSubmit(evt) {
   evt.preventDefault();
   addCard(createCard(inputPlaceField.value, inputLinkField.value));
   evt.target.reset();
-  evt.target.elements.submitBtn.classList.add('popup__save-button_inactive');/*.elements.submitBtn.classList.add('popup__save-button_inactive');*/
+  /*evt.target.elements.submitBtn.classList.add('popup__save-button_inactive');/*.elements.submitBtn.classList.add('popup__save-button_inactive');*/
   closePopup(cardPopup);
 }
 
