@@ -41,7 +41,7 @@ function openPopup(popup) {
   lastPopup = popup; 
   popup.classList.add("popup_opened");
   popup.addEventListener("mousedown", handlerPopupCloseOnClick);
-  window.addEventListener("keydown", handlerPopupCloseOnEscKeyDown);
+  document.addEventListener("keydown", handlerPopupCloseOnEscKeyDown);
 }
 
 function handlerPopupCloseOnClick(evt) {
@@ -49,6 +49,7 @@ function handlerPopupCloseOnClick(evt) {
 }
 
 function handlerPopupCloseOnEscKeyDown(key) {
+  console.log('Привет');
   if (key.keyCode === 27) {
     closePopup(document.querySelector('.popup_opened'));
   }
@@ -178,7 +179,6 @@ function handleCardPopupFormSubmit(evt) {
   evt.preventDefault();
   addCard(createCard(inputPlaceField.value, inputLinkField.value));
   evt.target.reset();
-  /*evt.target.elements.submitBtn.classList.add('popup__save-button_inactive');/*.elements.submitBtn.classList.add('popup__save-button_inactive');*/
   closePopup(cardPopup);
 }
 

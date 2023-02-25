@@ -7,7 +7,6 @@ const selectorTypes = {
   errorClass: 'popup__input-error_visible'
 };
 
-
 //Выводим сообщение об ошибке и меняем стиль поля ввода на содержащий ошибку
 function showInputError (formElement, inputElement, errorMessage, selectors) {
   const errorElement = formElement.querySelector(`.${inputElement.name}-error`);
