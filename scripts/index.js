@@ -34,23 +34,22 @@ setTimeout(() => {
   imagePopup.classList.add("popup_transition");
 }, 1);
 
-let lastPopup;
-
 //Функция включения popup
 function openPopup(popup) {
   lastPopup = popup; 
   popup.classList.add("popup_opened");
   popup.addEventListener("mousedown", handlerPopupCloseOnClick);
-  document.addEventListener("keydown", handlerPopupCloseOnEscKeyDown);
+  window.addEventListener("keydown", handlerPopupCloseOnEscKeyDown);
 }
 
 function handlerPopupCloseOnClick(evt) {
-  closePopup(evt.target);
+  if(Array.from(evt.target.classList).includes('popup_opened')) {
+    closePopup(evt.target);
+  }
 }
 
-function handlerPopupCloseOnEscKeyDown(key) {
-  console.log('Привет');
-  if (key.keyCode === 27) {
+function handlerPopupCloseOnEscKeyDown(e) {
+  if (e.key === 'Escape') {
     closePopup(document.querySelector('.popup_opened'));
   }
 }
@@ -65,58 +64,6 @@ function closePopup(popup) {
 //Выключение соответствующего popup нажатием на крестик
 const exitBtns = document.querySelectorAll('.popup__exit-button');
 exitBtns.forEach((btn) => btn.addEventListener('click', (evt) => closePopup(evt.target.closest('.popup'))));
-
-//Список мест и ссылок на изображения 6 из задания + 6 из ПР4
-const initialCards = [
-  {
-    name: 'Кейптаун, ЮАР',
-    link: './images/cape-town.jpg'
-  },
-  {
-    name: 'Макао, Китай',
-    link: './images/macau.jpg'
-  },
-  {
-    name: 'Гавайи, США',
-    link: './images/havaii.jpg'
-  },
-  {
-    name: 'Флорианополис, Бразилия',
-    link: './images/florianopolis.jpg'
-  },
-  {
-    name: 'Тенерифе, Канарские острова',
-    link: './images/tenerife.jpg'
-  },
-  {
-    name: 'Санкт-Петербург, Россия',
-    link: './images/saint-petersburg.jpg'
-  },
-  {
-    name: 'Архыз',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-  },
-  {
-    name: 'Челябинская область',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-  },
-  {
-    name: 'Иваново',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-  },
-  {
-    name: 'Камчатка',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-  },
-  {
-    name: 'Холмогорский район',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-  },
-  {
-    name: 'Байкал',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-  }
-];
 
 //Функция создания новой карточки
 function createCard(name, link) {
@@ -138,7 +85,7 @@ function createCard(name, link) {
     popupImage.src = link;
     popupImage.alt = `Фото ${name}`;
   });
-  return(newCard);
+  return newCard;
 }
 
 //Функция добавления карточки на страницу
@@ -154,7 +101,7 @@ editButton.addEventListener('click', () => {
   openPopup(profilePopup);
   inputNameField.value = currentNameValue.textContent;
   inputProfField.value = currentProfValue.textContent;
-  validateFormNow(document.forms["profilePopupForm"]);
+  resetFormErrors(document.forms["profilePopupForm"], validationConfig);
 });
 
 //Обработка submit в форме popup-окна редактирования профиля
@@ -171,7 +118,7 @@ document.forms["profilePopupForm"].addEventListener('submit', handleProfilePopup
 //Вызов popup-окна добавления карточки нажатием на кнопку с крестиком
 addButton.addEventListener('click', function () {
   openPopup(cardPopup);
-  validateFormNow(document.forms["cardPopupForm"]);
+  resetFormErrors(document.forms["cardPopupForm"], validationConfig);
 });
 
 //Обработка submit в форме popup-окна добавления карточки

@@ -38,6 +38,7 @@
 /*---POPUP---*/
 @import url(../blocks/popup/popup.css);
 @import url(../blocks/popup/_opened/popup_opened.css);
+@import url(../blocks/popup/_high-opacity/popup_high-opacity.css);
 @import url(../blocks/popup/_transition/popup_transition.css);
 @import url(../blocks/popup/__form-container/popup__form-container.css);
 @import url(../blocks/popup/__image-container/popup__image-container.css);

@@ -1,64 +1,55 @@
-const selectorTypes = {
-  formSelector: '.popup__form',
-  inputSelector: '.popup__input',
-  submitButtonSelector: '.popup__save-button',
-  inactiveButtonClass: 'popup__save-button_inactive',
-  inputErrorClass: 'popup__input_type_error',
-  errorClass: 'popup__input-error_visible'
-};
-
 //Выводим сообщение об ошибке и меняем стиль поля ввода на содержащий ошибку
-function showInputError (formElement, inputElement, errorMessage, selectors) {
+function showInputError (formElement, inputElement, errorMessage, vConfig) {
   const errorElement = formElement.querySelector(`.${inputElement.name}-error`);
-  inputElement.classList.add(selectors.inputErrorClass);
+  inputElement.classList.add(vConfig.inputErrorClass);
   errorElement.textContent = errorMessage;
-  errorElement.classList.add(selectors.errorClass);
+  errorElement.classList.add(vConfig.errorClass);
 };
 
 //Скрываем сообщение об ошибке и меняем стиль поля ввода на нормальный
-function hideInputError (formElement, inputElement, selectors) {
+function hideInputError (formElement, inputElement, vConfig) {
   const errorElement = formElement.querySelector(`.${inputElement.name}-error`);
-  inputElement.classList.remove(selectors.inputErrorClass);
+  inputElement.classList.remove(vConfig.inputErrorClass);
   errorElement.textContent = '';
-  errorElement.classList.remove(selectors.errorClass);
+  errorElement.classList.remove(vConfig.errorClass);
 };
 
 //Проверяем корректность ввода в поле
-function checkInputValidity (formElement, inputElement, selectors) {
+function checkInputValidity (formElement, inputElement, vConfig) {
   if (!inputElement.validity.valid) {
-    showInputError(formElement, inputElement, inputElement.validationMessage, selectors);
+    showInputError(formElement, inputElement, inputElement.validationMessage, vConfig);
   } else {
-    hideInputError(formElement, inputElement, selectors);
+    hideInputError(formElement, inputElement, vConfig);
   }
 };
 
 //Устанавливаем лисенеры ввода на поля ввода и меняем состояние кнопки
-function setEventListeners (formElement, selectors) {
-  const inputList = Array.from(formElement.querySelectorAll(selectors.inputSelector));
-  const buttonElement = formElement.querySelector(selectors.submitButtonSelector);
+function setEventListeners (formElement, vConfig) {
+  const inputList = Array.from(formElement.querySelectorAll(vConfig.inputSelector));
+  const buttonElement = formElement.querySelector(vConfig.submitButtonSelector);
   inputList.forEach((inputElement) => {
     inputElement.addEventListener('input', () => {
-      checkInputValidity(formElement, inputElement, selectors);
-      toggleButtonState(inputList, buttonElement, selectors);
+      checkInputValidity(formElement, inputElement, vConfig);
+      toggleButtonState(inputList, buttonElement, vConfig);
     });
   });
 };
 
 //Функция немедленной однократной валидации данных формы при её влключении
 //нужна, чтобы удалить остатки модификаторов от предыдущих обращений к формам
-function validateFormNow(formElement) {
-  const inputList = Array.from(formElement.querySelectorAll(selectorTypes.inputSelector));
-  const buttonElement = formElement.querySelector(selectorTypes.submitButtonSelector);
-  toggleButtonState(inputList, buttonElement, selectorTypes);
+function resetFormErrors(formElement, vConfig) {
+  const inputList = Array.from(formElement.querySelectorAll(vConfig.inputSelector));
+  const buttonElement = formElement.querySelector(vConfig.submitButtonSelector);
+  toggleButtonState(inputList, buttonElement, vConfig);
   inputList.forEach((inputElement) => {
-    checkInputValidity(formElement, inputElement, selectorTypes);
+    hideInputError(formElement, inputElement, vConfig);
   });
 };
 
 //Включаем валидацию для всех форм
-function enableValidation (selectors) {
-  formList = Array.from(document.querySelectorAll(selectors.formSelector));
-  formList.forEach((formElement) => setEventListeners(formElement, selectors));
+function enableValidation (vConfig) {
+  formList = Array.from(document.querySelectorAll(vConfig.formSelector));
+  formList.forEach((formElement) => setEventListeners(formElement, vConfig));
 };
 
 //Проверяем есть ли среди полей ввода формы те, которые не проходят валидацию
@@ -67,12 +58,22 @@ function hasInvalidInput (inputList) {
 }
 
 //Функция смены состояния кнопки с активной на неактивную
-function toggleButtonState (inputList, buttonElement, selectors) {
+function toggleButtonState (inputList, buttonElement, vConfig) {
   if (hasInvalidInput(inputList)) {
-    buttonElement.classList.add(selectors.inactiveButtonClass);
+    disableButton(buttonElement, vConfig);
   } else {
-    buttonElement.classList.remove(selectors.inactiveButtonClass);
+    enableButton(buttonElement, vConfig);
   }
 }
 
-enableValidation(selectorTypes);
+function disableButton (buttonElement, vConfig) {
+  buttonElement.classList.add(vConfig.inactiveButtonClass);
+  buttonElement.setAttribute('disabled', '');
+}
+
+function enableButton (buttonElement, vConfig) {
+  buttonElement.classList.remove(vConfig.inactiveButtonClass);
+  buttonElement.removeAttribute('disabled');
+}
+
+enableValidation(validationConfig);
