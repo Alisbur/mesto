@@ -1,4 +1,6 @@
 import { imagePopup, popupImage, popupImageTitle, Card } from './Card.js';
+import { FormValidator } from './FormValidator.js';
+import { initialCards, validationConfig } from './constants.js';
 
 //Элементы .popup
 const profilePopup = document.querySelector('.profile-popup');
@@ -21,9 +23,8 @@ const addButton = document.querySelector('.profile__add-button');
 //Блок Elements для добавления карточек>
 const elements = document.querySelector('.elements');
 
-//Шаблон вёрстки новой карточки
+//Id шаблона вёрстки новой карточки
 const newCardTemplate = '#article-id';
-/*const newCardTemplate = document.querySelector('#article-id').content.querySelector('.elements__item');*/
 
 //Убираем мелькание попапов при обновлении страницы
 setTimeout(() => {
@@ -31,6 +32,14 @@ setTimeout(() => {
   cardPopup.classList.add("popup_transition");
   imagePopup.classList.add("popup_transition");
 }, 1);
+
+//Создаём экземпляр валидатора формы редактирования данных профиля
+const profilePopupFormValidator = new FormValidator(document.forms["profilePopupForm"], validationConfig);
+profilePopupFormValidator.enableValidation();
+
+//Создаём экземпляр валидатора формы добавления карточек
+const addCardPopupFormValidator = new FormValidator(document.forms["cardPopupForm"], validationConfig);
+addCardPopupFormValidator.enableValidation();
 
 //Функция включения popup
 const openPopup = function (popup) {
@@ -78,7 +87,7 @@ editButton.addEventListener('click', () => {
   openPopup(profilePopup);
   inputNameField.value = currentNameValue.textContent;
   inputProfField.value = currentProfValue.textContent;
-  resetFormErrors(document.forms["profilePopupForm"], validationConfig);
+  profilePopupFormValidator.resetFormErrors();
 });
 
 //Обработка submit в форме popup-окна редактирования профиля
@@ -95,7 +104,7 @@ document.forms["profilePopupForm"].addEventListener('submit', handleProfilePopup
 //Вызов popup-окна добавления карточки нажатием на кнопку с крестиком
 addButton.addEventListener('click', function () {
   openPopup(cardPopup);
-  resetFormErrors(document.forms["cardPopupForm"], validationConfig);
+  addCardPopupFormValidator.resetFormErrors();
 });
 
 //Обработка submit в форме popup-окна добавления карточки

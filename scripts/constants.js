@@ -1,5 +1,5 @@
 //Список мест и ссылок на изображения 6 из задания + 6 из ПР4
-const initialCards = [
+export const initialCards = [
   {
     name: 'Кейптаун, ЮАР',
     link: './images/cape-town.jpg'
@@ -51,7 +51,7 @@ const initialCards = [
 ];
 
 //Типы селекторов для валидации
-const validationConfig = {
+export const validationConfig = {
   formSelector: '.popup__form',
   inputSelector: '.popup__input',
   submitButtonSelector: '.popup__save-button',
