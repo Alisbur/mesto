@@ -1,8 +1,7 @@
-import { imagePopup, popupImage, popupImageTitle, Card } from './Card.js';
-
 //Элементы .popup
 const profilePopup = document.querySelector('.profile-popup');
 const cardPopup = document.querySelector('.card-popup');
+const imagePopup = document.querySelector('.image-popup');
 
 //Элементы .profilePopup
 const inputNameField = profilePopup.querySelector('.popup__input_type_name');
@@ -11,6 +10,10 @@ const inputProfField = profilePopup.querySelector('.popup__input_type_prof');
 //Элементы .cardPopup
 const inputPlaceField = cardPopup.querySelector('.popup__input_type_place');
 const inputLinkField = cardPopup.querySelector('.popup__input_type_link');
+
+//Элементы .imagePopup
+const popupImage = imagePopup.querySelector('.popup__image');
+const popupImageTitle = imagePopup.querySelector('.popup__image-subtitle');
 
 //Элементы на главной странице
 const currentNameValue = document.querySelector('.profile__name');
@@ -22,8 +25,7 @@ const addButton = document.querySelector('.profile__add-button');
 const elements = document.querySelector('.elements');
 
 //Шаблон вёрстки новой карточки
-const newCardTemplate = '#article-id';
-/*const newCardTemplate = document.querySelector('#article-id').content.querySelector('.elements__item');*/
+const newCardTemplate = document.querySelector('#article-id').content.querySelector('.elements__item');
 
 //Убираем мелькание попапов при обновлении страницы
 setTimeout(() => {
@@ -33,7 +35,8 @@ setTimeout(() => {
 }, 1);
 
 //Функция включения popup
-const openPopup = function (popup) {
+function openPopup(popup) {
+  lastPopup = popup; 
   popup.classList.add("popup_opened");
   popup.addEventListener("mousedown", handlerPopupCloseOnClick);
   window.addEventListener("keydown", handlerPopupCloseOnEscKeyDown);
@@ -52,7 +55,7 @@ function handlerPopupCloseOnEscKeyDown(e) {
 }
 
 //Функция выключения popup
-const closePopup = function (popup) {
+function closePopup(popup) {
   popup.classList.remove("popup_opened");
   popup.removeEventListener("click", handlerPopupCloseOnClick);
   window.removeEventListener("keydown", handlerPopupCloseOnEscKeyDown);
@@ -62,16 +65,36 @@ const closePopup = function (popup) {
 const exitBtns = document.querySelectorAll('.popup__exit-button');
 exitBtns.forEach((btn) => btn.addEventListener('click', (evt) => closePopup(evt.target.closest('.popup'))));
 
+//Функция создания новой карточки
+function createCard(name, link) {
+  const newCard = newCardTemplate.cloneNode(true);
+  const newCardImage = newCard.querySelector('.elements__item-image');
+
+  newCardImage.src = link;
+  newCardImage.alt = `Фото ${name}`;
+  newCard.querySelector('.elements__item-title').textContent = name;
+  newCard.querySelector('.elements__like-button').addEventListener('click', function (evt) {
+    evt.target.classList.toggle('elements__like-button_active')
+  });
+  newCard.querySelector('.elements__del-button').addEventListener('click', function () {
+    newCard.remove()
+  });
+  newCardImage.addEventListener('click', function () {
+    openPopup(imagePopup);
+    popupImageTitle.textContent = name;
+    popupImage.src = link;
+    popupImage.alt = `Фото ${name}`;
+  });
+  return newCard;
+}
+
 //Функция добавления карточки на страницу
 function addCard(card) {
   elements.prepend(card);
 }
 
 //Цикл добавления всех карточек из списка на страницу
-initialCards.forEach((el) => {
-  const newCard = new Card(el.name, el.link, newCardTemplate, openPopup);
-  addCard(newCard.createCard());
-});
+initialCards.forEach((el) => addCard(createCard(el.name, el.link)));
 
 //Вызов popup-окна редактирования профиля нажатием на кнопку с карандашом
 editButton.addEventListener('click', () => {
@@ -101,8 +124,7 @@ addButton.addEventListener('click', function () {
 //Обработка submit в форме popup-окна добавления карточки
 function handleCardPopupFormSubmit(evt) {
   evt.preventDefault();
-  const newCard = new Card(inputPlaceField.value, inputLinkField.value, newCardTemplate, openPopup);
-  addCard(newCard.createCard());
+  addCard(createCard(inputPlaceField.value, inputLinkField.value));
   evt.target.reset();
   closePopup(cardPopup);
 }

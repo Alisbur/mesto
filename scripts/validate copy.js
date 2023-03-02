@@ -48,7 +48,7 @@ function resetFormErrors(formElement, vConfig) {
 
 //Включаем валидацию для всех форм
 function enableValidation (vConfig) {
-  const formList = Array.from(document.querySelectorAll(vConfig.formSelector));
+  formList = Array.from(document.querySelectorAll(vConfig.formSelector));
   formList.forEach((formElement) => setEventListeners(formElement, vConfig));
 };
 
