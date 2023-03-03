@@ -1,10 +1,11 @@
-import { imagePopup, popupImage, popupImageTitle, Card } from './Card.js';
+import { Card } from './Card.js';
 import { FormValidator } from './FormValidator.js';
 import { initialCards, validationConfig } from './constants.js';
 
 //Элементы .popup
 const profilePopup = document.querySelector('.profile-popup');
 const cardPopup = document.querySelector('.card-popup');
+const imagePopup = document.querySelector('.image-popup');
 
 //Элементы .profilePopup
 const inputNameField = profilePopup.querySelector('.popup__input_type_name');
@@ -13,6 +14,10 @@ const inputProfField = profilePopup.querySelector('.popup__input_type_prof');
 //Элементы .cardPopup
 const inputPlaceField = cardPopup.querySelector('.popup__input_type_place');
 const inputLinkField = cardPopup.querySelector('.popup__input_type_link');
+
+//Элементы .imagePopup
+const popupImage = imagePopup.querySelector('.popup__image');
+const popupImageTitle = imagePopup.querySelector('.popup__image-subtitle');
 
 //Элементы на главной странице
 const currentNameValue = document.querySelector('.profile__name');
@@ -63,8 +68,15 @@ function handlerPopupCloseOnEscKeyDown(e) {
 //Функция выключения popup
 const closePopup = function (popup) {
   popup.classList.remove("popup_opened");
-  popup.removeEventListener("click", handlerPopupCloseOnClick);
+  popup.removeEventListener("mousedown", handlerPopupCloseOnClick);
   window.removeEventListener("keydown", handlerPopupCloseOnEscKeyDown);
+}
+
+const handleCardClick = (name, link) => {
+  popupImageTitle.textContent = name;
+  popupImage.src = link;
+  popupImage.alt = `Фото ${name}`;
+  openPopup(imagePopup);
 }
 
 //Выключение соответствующего popup нажатием на крестик
@@ -76,10 +88,17 @@ function addCard(card) {
   elements.prepend(card);
 }
 
+//Функция создания вёрстки новой карточки
+function createNewCard(name, link) {
+  const newCard = new Card(name, link, newCardTemplate, handleCardClick);
+  const cardElement = newCard.createCard();
+  return cardElement;
+}
+
 //Цикл добавления всех карточек из списка на страницу
 initialCards.forEach((el) => {
-  const newCard = new Card(el.name, el.link, newCardTemplate, openPopup);
-  addCard(newCard.createCard());
+  const newCard = createNewCard(el.name, el.link);
+  addCard(newCard);
 });
 
 //Вызов popup-окна редактирования профиля нажатием на кнопку с карандашом
@@ -110,8 +129,8 @@ addButton.addEventListener('click', function () {
 //Обработка submit в форме popup-окна добавления карточки
 function handleCardPopupFormSubmit(evt) {
   evt.preventDefault();
-  const newCard = new Card(inputPlaceField.value, inputLinkField.value, newCardTemplate, openPopup);
-  addCard(newCard.createCard());
+  const newCard = createNewCard(inputPlaceField.value, inputLinkField.value);
+  addCard(newCard);
   evt.target.reset();
   closePopup(cardPopup);
 }

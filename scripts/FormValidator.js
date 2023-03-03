@@ -3,6 +3,8 @@ export class FormValidator {
   constructor(formElement, vConfig) {
     this._vConfig = vConfig;
     this._formElement = formElement;
+    this._inputList = Array.from(this._formElement.querySelectorAll(this._vConfig.inputSelector));
+    this._buttonElement = this._formElement.querySelector(this._vConfig.submitButtonSelector);
   }
 
 //Метод включения индикации и сообщения об ошибке
@@ -32,50 +34,45 @@ export class FormValidator {
 
   //Метод установки лисенеров ввода на поля формы и актуализация состояния кнопки
   _setEventListeners () {
-    console.log('SetEventListeners() - ON');
-    const inputList = Array.from(this._formElement.querySelectorAll(this._vConfig.inputSelector));
-    const buttonElement = this._formElement.querySelector(this._vConfig.submitButtonSelector);
-    inputList.forEach((inputElement) => {
+    this._inputList.forEach((inputElement) => {
       inputElement.addEventListener('input', () => {
         this._checkInputValidity(inputElement);
-        this._toggleButtonState(inputList, buttonElement);
+        this._toggleButtonState();
       });
     });
   };
 
   //Метод проверки полей ввода формы на предмет прохождения валидации
-  _hasInvalidInput (inputList) {
-    return inputList.some((el) => !el.validity.valid);
+  _hasInvalidInput () {
+    return this._inputList.some((el) => !el.validity.valid);
   }
 
   //Метод смены состояния кнопки с активной на неактивную
-  _toggleButtonState (inputList, buttonElement) {
-    if (this._hasInvalidInput(inputList)) {
-      this._disableButton(buttonElement);
+  _toggleButtonState () {
+    if (this._hasInvalidInput()) {
+      this._disableButton();
     } else {
-      this._enableButton(buttonElement);
+      this._enableButton();
     }
   }
 
   //Метод деактивации кнопки submit
-  _disableButton (buttonElement) {
-    buttonElement.classList.add(this._vConfig.inactiveButtonClass);
-    buttonElement.setAttribute('disabled', '');
+  _disableButton () {
+    this._buttonElement.classList.add(this._vConfig.inactiveButtonClass);
+    this._buttonElement.setAttribute('disabled', '');
   }
 
   //Метод активации кнопки submit
-  _enableButton (buttonElement) {
-    buttonElement.classList.remove(this._vConfig.inactiveButtonClass);
-    buttonElement.removeAttribute('disabled');
+  _enableButton () {
+    this._buttonElement.classList.remove(this._vConfig.inactiveButtonClass);
+    this._buttonElement.removeAttribute('disabled');
   }
 
   //Метод немедленной однократной валидации данных формы при её влключении
   //нужна, чтобы удалить остатки модификаторов от предыдущих обращений к форме
   resetFormErrors() {
-    const inputList = Array.from(this._formElement.querySelectorAll(this._vConfig.inputSelector));
-    const buttonElement = this._formElement.querySelector(this._vConfig.submitButtonSelector);
-    this._toggleButtonState(inputList, buttonElement);
-    inputList.forEach((inputElement) => {
+    this._toggleButtonState(this._inputList, this._buttonElement);
+    this._inputList.forEach((inputElement) => {
       this._hideInputError(inputElement);
     });
   }
@@ -83,6 +80,5 @@ export class FormValidator {
   //Метод включения валидации экземпляра
   enableValidation () {
     this._setEventListeners();
-    console.log('EnableValidation() - ON');
   };
 }
