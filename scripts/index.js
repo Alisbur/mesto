@@ -1,4 +1,5 @@
-import { Card } from './Card.js';
+import Card from './Card.js';
+import Section from './Section.js';
 import { FormValidator } from './FormValidator.js';
 import { initialCards, validationConfig } from './constants.js';
 
@@ -26,7 +27,7 @@ const editButton = document.querySelector('.profile__edit-button');
 const addButton = document.querySelector('.profile__add-button');
 
 //Блок Elements для добавления карточек>
-const elements = document.querySelector('.elements');
+/*const elements = document.querySelector('.elements');*/
 
 //Id шаблона вёрстки новой карточки
 const newCardTemplate = '#article-id';
@@ -79,27 +80,34 @@ const handleCardClick = (name, link) => {
   openPopup(imagePopup);
 }
 
+const section = new Section({ data : initialCards, renderer: (name, link) => {
+  const newCard = new Card(name, link, newCardTemplate, handleCardClick);
+  const cardElement = newCard.createCard();
+  return cardElement;
+}}, '.elements');
+section.renderAll();
+
 //Выключение соответствующего popup нажатием на крестик
 const exitBtns = document.querySelectorAll('.popup__exit-button');
 exitBtns.forEach((btn) => btn.addEventListener('click', (evt) => closePopup(evt.target.closest('.popup'))));
 
 //Функция добавления карточки на страницу
-function addCard(card) {
+/*function addCard(card) {
   elements.prepend(card);
-}
+}*/
 
 //Функция создания вёрстки новой карточки
-function createNewCard(name, link) {
+/*function createNewCard(name, link) {
   const newCard = new Card(name, link, newCardTemplate, handleCardClick);
   const cardElement = newCard.createCard();
   return cardElement;
-}
+}*/
 
 //Цикл добавления всех карточек из списка на страницу
-initialCards.forEach((el) => {
+/*initialCards.forEach((el) => {
   const newCard = createNewCard(el.name, el.link);
   addCard(newCard);
-});
+});*/
 
 //Вызов popup-окна редактирования профиля нажатием на кнопку с карандашом
 editButton.addEventListener('click', () => {
@@ -129,8 +137,7 @@ addButton.addEventListener('click', function () {
 //Обработка submit в форме popup-окна добавления карточки
 function handleCardPopupFormSubmit(evt) {
   evt.preventDefault();
-  const newCard = createNewCard(inputPlaceField.value, inputLinkField.value);
-  addCard(newCard);
+  section.renderCard(inputPlaceField.value, inputLinkField.value);
   evt.target.reset();
   closePopup(cardPopup);
 }
