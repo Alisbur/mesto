@@ -5,12 +5,12 @@ export default class Section {
     this._container = document.querySelector(containerSelector);
   }
 
-  renderCard(name, link) {
+  renderCard (name, link) {
     const cardElement = this._renderer(name, link);
     this.addItem(cardElement);
   }
 
-  renderAll () {
+  renderInitialCards () {
     this._rendereditems.forEach((item) => this.renderCard(item.name, item.link));
   }
 
