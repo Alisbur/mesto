@@ -1,6 +1,6 @@
 export default class Card {
   //Конструктор класса Card
-  constructor(name, link, newCardTemplate, handleCardClick) {
+  constructor({ name, link }, newCardTemplate, handleCardClick) {
     this._name = name;
     this._link = link;
     this._newCardTemplate = newCardTemplate;
@@ -13,19 +13,22 @@ export default class Card {
     return cardTemplate;
   }
 
+  //Хендлер удаления карточки нажатием на корзину
   _handleRemoveClick = () => {
     this._newCard.remove()
     this._newCard = null;
   }
 
+  //Хендлер нажатия на сердечко
   _handleLikeClick = (evt) => {
     evt.target.classList.toggle('elements__like-button_active');
   }
-
+  
+  //Метод установки слушателей событий на карточку
   _setEventListeners = () => {
     this._newCard.querySelector('.elements__like-button').addEventListener('click', this._handleLikeClick);
     this._newCard.querySelector('.elements__del-button').addEventListener('click', this._handleRemoveClick);
-    this._newCardImage.addEventListener('click', () => {this._handleCardClick(this._name, this._link)});
+    this._newCardImage.addEventListener('click', () => {this._handleCardClick({name:this._name, link:this._link})});
   }
 
   //Метод добавления контента и поведения новой карточки

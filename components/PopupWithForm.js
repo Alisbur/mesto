@@ -7,33 +7,36 @@ export default class PopupWithForm extends Popup {
     this._inputList = this._popup.querySelectorAll(inputSelector);
     this._submitCallback = submitCallback;
   }
-
+  
+  //Обработчик сабмита формы
   _handlerSubmitForm = (evt) => {
     evt.preventDefault();
     const values = this._getInputValues();
-    console.log(values);
     this._submitCallback(values);
     this.closePopup();
+    setTimeout(() => this._form.reset(), 400); //пауза перед сбросом, чтобы значения не менялись пока попап гаснет
   }
 
+  //Метод установки слушателей событий на попап и форму
   _setEventListeners () {
     super._setEventListeners();
     this._form.addEventListener('submit', this._handlerSubmitForm);
   }
 
+  //Метод получения данных полей ввода
   _getInputValues() {
     const values = {};
     Array.from(this._inputList).forEach((el) => values[el.name] = el.value);
-    console.log(values);
     return values;
   }
-
+  
+  //Метод установки данных полей ввода (для полей формы редактирования данных профиля)
   setInputValues(values) {
     this._inputList.forEach(el => el.value = values[el.name]);
   }
 
+  //Метод закрытия попапа
   closePopup () {
     super.closePopup();
-    /*this._form.reset();*/
   }
 }
