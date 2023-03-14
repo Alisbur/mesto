@@ -37,9 +37,9 @@ export default class Popup {
 
   //Метод закрытия popup
   closePopup () {
-    this._popup.classList.remove("popup_opened");
     this._popup.removeEventListener("mousedown", this._handlerPopupCloseOnClick);
     this._popup.querySelector('.popup__exit-button').removeEventListener("click", this._handlerPopupCloseOnExitClick);
     window.removeEventListener("keydown", this._handlerPopupCloseOnEscKeyDown);
+    this._popup.classList.remove("popup_opened");
   }
 }

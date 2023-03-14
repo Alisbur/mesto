@@ -11,8 +11,8 @@ export default class UserInfo {
     };
   }
 
-  setUserInfo ({ input1, input2 }) {
-    this._nameField.textContent = input1;
-    this._profField.textContent = input2;
+  setUserInfo ({ name, prof }) {
+    this._nameField.textContent = name;
+    this._profField.textContent = prof;
   }
 }
