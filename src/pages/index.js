@@ -36,6 +36,7 @@ const iPopup = new PopupWithImage({
   imageSelector : '.popup__image',
   subtitleSelector: '.popup__image-subtitle'
   });
+iPopup.setEventListeners();
 
 //Обработчик открытия попапа с изображением по клику на изображении карточки
 const handleCardClick = (cardData) => {
@@ -67,6 +68,7 @@ const pPopup = new PopupWithForm({
   (values) => {
     userInfo.setUserInfo(values);
   });
+pPopup.setEventListeners();
 
 //Создаём экземпляр попапа с формой добавления карточки места
 const cPopup = new PopupWithForm({
@@ -77,6 +79,7 @@ const cPopup = new PopupWithForm({
   (cardData) => {
     section.renderCard(cardData);
   });
+cPopup.setEventListeners();
 
 //Вызов popup с формой редактирования данных профиля нажатием на кнопку с ручкой
 editButton.addEventListener('click', () => {

@@ -14,12 +14,11 @@ export default class PopupWithForm extends Popup {
     const values = this._getInputValues();
     this._submitCallback(values);
     this.closePopup();
-    setTimeout(() => this._form.reset(), 400); //пауза перед сбросом, чтобы значения не менялись пока попап гаснет
   }
 
   //Метод установки слушателей событий на попап и форму
-  _setEventListeners () {
-    super._setEventListeners();
+  setEventListeners () {
+    super.setEventListeners();
     this._form.addEventListener('submit', this._handlerSubmitForm);
   }
 
@@ -38,5 +37,6 @@ export default class PopupWithForm extends Popup {
   //Метод закрытия попапа
   closePopup () {
     super.closePopup();
+    setTimeout(() => this._form.reset(), 400); //пауза перед сбросом, чтобы значения не менялись пока попап гаснет
   }
 }

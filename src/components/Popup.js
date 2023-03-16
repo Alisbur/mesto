@@ -4,10 +4,9 @@ export default class Popup {
   }
 
   //Установка обработчиков попапа
-  _setEventListeners () {
+  setEventListeners () {
     this._popup.addEventListener("mousedown", this._handlerPopupCloseOnClick);
     this._popup.querySelector('.popup__exit-button').addEventListener("click", this._handlerPopupCloseOnExitClick);
-    window.addEventListener("keydown", this._handlerPopupCloseOnEscKeyDown);
   }
 
   //Обработчик закрытия поклику на крестик или оверлей
@@ -32,13 +31,11 @@ export default class Popup {
   //Метод открытия popup  
   openPopup () {
     this._popup.classList.add("popup_opened");
-    this._setEventListeners();
+    window.addEventListener("keydown", this._handlerPopupCloseOnEscKeyDown);
   }
 
   //Метод закрытия popup
   closePopup () {
-    this._popup.removeEventListener("mousedown", this._handlerPopupCloseOnClick);
-    this._popup.querySelector('.popup__exit-button').removeEventListener("click", this._handlerPopupCloseOnExitClick);
     window.removeEventListener("keydown", this._handlerPopupCloseOnEscKeyDown);
     this._popup.classList.remove("popup_opened");
   }
