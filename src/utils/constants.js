@@ -1,28 +1,36 @@
 //Список мест и ссылок на изображения 6 из задания + 6 из ПР4
+import capetown from '../images/cape-town.jpg';
+import macau from '../images/macau.jpg';
+import havaii from '../images/havaii.jpg';
+import florianopolis from '../images/florianopolis.jpg';
+import tenerife from '../images/tenerife.jpg';
+import saintPetersburg from '../images/saint-petersburg.jpg';
+
+
 export const initialCards = [
   {
     name: 'Кейптаун, ЮАР',
-    link: './images/cape-town.jpg'
+    link: capetown
   },
   {
     name: 'Макао, Китай',
-    link: './images/macau.jpg'
+    link: macau
   },
   {
     name: 'Гавайи, США',
-    link: './images/havaii.jpg'
+    link: havaii
   },
   {
     name: 'Флорианополис, Бразилия',
-    link: './images/florianopolis.jpg'
+    link: florianopolis
   },
   {
     name: 'Тенерифе, Канарские острова',
-    link: './images/tenerife.jpg'
+    link: tenerife
   },
   {
     name: 'Санкт-Петербург, Россия',
-    link: './images/saint-petersburg.jpg'
+    link: saintPetersburg
   },
   {
     name: 'Архыз',

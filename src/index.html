@@ -14,25 +14,25 @@
 <body class="root">
   <div class="page">
     <header class="header">
-      <img src="./images/logo_white.svg" class="header__logo" alt="Логотип Mesto">
+      <img src="<%=require('./images/logo_white.svg')%>" class="header__logo" alt="Логотип Mesto">
     </header>
 
     <main class="content">
       <section class="profile">
         <div class="profile__pers-data">
-          <img src="./images/kruzenshtern.png" class="profile__avatar" alt="Аватар автора">
+          <img src="<%=require('./images/kruzenshtern.png')%>" class="profile__avatar" alt="Аватар автора">
           <div class="profile__details">
             <div class="profile__name-field">
               <h1 class="profile__name">И.Ф. Крузенштерн</h1>
               <button type="button" class="profile__edit-button link-transparency" aria-label="Редактировать данные">
-                <img src="./images/edit-button.svg" class="profile__edit-button-image" alt="Кнопка 'Изменить данные'">
+                <img src="<%=require('./images/edit-button.svg')%>" class="profile__edit-button-image" alt="Кнопка 'Изменить данные'">
               </button>
             </div>
             <p class="profile__profession">Русский мореплаватель</p>
           </div>
         </div>
         <button type="button" class="profile__add-button link-transparency" aria-label="Добавить изображение">
-          <img src="./images/add-button-cross.svg" class="profile__add-button-image" alt="Кнопка 'Добавить'">
+          <img src="<%=require('./images/add-button-cross.svg')%>" class="profile__add-button-image" alt="Кнопка 'Добавить'">
         </button>
       </section>
 
