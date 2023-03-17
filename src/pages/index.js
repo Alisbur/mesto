@@ -31,16 +31,16 @@ const addCardPopupFormValidator = new FormValidator(document.forms["cardPopupFor
 addCardPopupFormValidator.enableValidation();
 
 //Создаём экземпляр попапа с изображением
-const iPopup = new PopupWithImage({
+const imagePopup = new PopupWithImage({
   popupSelector : '.image-popup',
   imageSelector : '.popup__image',
   subtitleSelector: '.popup__image-subtitle'
   });
-iPopup.setEventListeners();
+imagePopup.setEventListeners();
 
 //Обработчик открытия попапа с изображением по клику на изображении карточки
 const handleCardClick = (cardData) => {
-  iPopup.openPopup(cardData);
+  imagePopup.openPopup(cardData);
 }
 
 //Создаём экземпляр класса Section
@@ -60,7 +60,7 @@ const userInfo = new UserInfo ({
   });
 
 //Создаём экземпляр попапа с формой редактирования данных профиля
-const pPopup = new PopupWithForm({
+const profileDataPopup = new PopupWithForm({
     popupSelector : '.profile-popup', 
     formSelector : '.popup__form',
     inputSelector : '.popup__input'
@@ -68,29 +68,29 @@ const pPopup = new PopupWithForm({
   (values) => {
     userInfo.setUserInfo(values);
   });
-pPopup.setEventListeners();
+  profileDataPopup.setEventListeners();
 
 //Создаём экземпляр попапа с формой добавления карточки места
-const cPopup = new PopupWithForm({
+const cardDataPopup = new PopupWithForm({
     popupSelector : '.card-popup', 
     formSelector : '.popup__form',
     inputSelector : '.popup__input'
   }, 
   (cardData) => {
     section.renderCard(cardData);
-  });
-cPopup.setEventListeners();
+  }); 
+  cardDataPopup.setEventListeners();
 
 //Вызов popup с формой редактирования данных профиля нажатием на кнопку с ручкой
 editButton.addEventListener('click', () => {
   const values = userInfo.getUserInfo();
-  pPopup.setInputValues(values);
-  pPopup.openPopup();
+  profileDataPopup.setInputValues(values);
+  profileDataPopup.openPopup();
   profilePopupFormValidator.resetFormErrors();
   });
 
 //Вызов popup-окна с формой добавления карточки нажатием на кнопку с крестиком
 addButton.addEventListener('click', function () {
-  cPopup.openPopup();
+  cardDataPopup.openPopup();
   addCardPopupFormValidator.resetFormErrors();
   });
