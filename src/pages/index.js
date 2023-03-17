@@ -60,7 +60,7 @@ const userInfo = new UserInfo ({
   });
 
 //Создаём экземпляр попапа с формой редактирования данных профиля
-const profileDataPopup = new PopupWithForm({
+const profilePopup = new PopupWithForm({
     popupSelector : '.profile-popup', 
     formSelector : '.popup__form',
     inputSelector : '.popup__input'
@@ -68,10 +68,10 @@ const profileDataPopup = new PopupWithForm({
   (values) => {
     userInfo.setUserInfo(values);
   });
-  profileDataPopup.setEventListeners();
+  profilePopup.setEventListeners();
 
 //Создаём экземпляр попапа с формой добавления карточки места
-const cardDataPopup = new PopupWithForm({
+const cardPopup = new PopupWithForm({
     popupSelector : '.card-popup', 
     formSelector : '.popup__form',
     inputSelector : '.popup__input'
@@ -79,18 +79,18 @@ const cardDataPopup = new PopupWithForm({
   (cardData) => {
     section.renderCard(cardData);
   }); 
-  cardDataPopup.setEventListeners();
+  cardPopup.setEventListeners();
 
 //Вызов popup с формой редактирования данных профиля нажатием на кнопку с ручкой
 editButton.addEventListener('click', () => {
   const values = userInfo.getUserInfo();
-  profileDataPopup.setInputValues(values);
-  profileDataPopup.openPopup();
+  profilePopup.setInputValues(values);
+  profilePopup.openPopup();
   profilePopupFormValidator.resetFormErrors();
   });
 
 //Вызов popup-окна с формой добавления карточки нажатием на кнопку с крестиком
 addButton.addEventListener('click', function () {
-  cardDataPopup.openPopup();
+  cardPopup.openPopup();
   addCardPopupFormValidator.resetFormErrors();
   });
