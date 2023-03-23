@@ -94,3 +94,38 @@ addButton.addEventListener('click', function () {
   cardPopup.openPopup();
   addCardPopupFormValidator.resetFormErrors();
   });
+
+
+
+//--------------------------------------------------АВАТАР
+/*
+//Создаём экземпляр попапа с формой редактирования аватара профиля
+const avatarPopup = new PopupWithForm({
+  popupSelector : '.profile-ava-popup', 
+  formSelector : '.popup__form',
+  inputSelector : '.popup__input'
+},
+(values) => {});
+
+//Создаём экземпляр валидатора формы добавления карточек
+const avatarEditPopupFormValidator = new FormValidator(document.forms["profileAvaPopupForm"], validationConfig);
+avatarEditPopupFormValidator.enableValidation();
+
+avatarPopup.setEventListeners();
+*/
+
+//--------------------------------------------------ПОДТВЕРЖДЕНИЕ
+/*
+//Создаём экземпляр попапа с формой подтверждения
+const confirmPopup = new PopupWithForm({
+  popupSelector : '.confirm-popup', 
+  formSelector : '.popup__form',
+  inputSelector : '.popup__input'
+},
+(values) => {});
+
+document.querySelector(".profile__avatar-button").addEventListener("click", () => {
+    //avatarPopup.openPopup();
+    confirmPopup.openPopup();
+});
+*/

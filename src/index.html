@@ -19,7 +19,9 @@
     <main class="content">
       <section class="profile">
         <div class="profile__pers-data">
-          <img src="<%=require('./images/kruzenshtern.png')%>" class="profile__avatar" alt="Аватар автора">
+          <button type="button" class="profile__avatar-button" aria-label="Изменить аватар">
+            <img src="<%=require('./images/kruzenshtern.png')%>" class="profile__avatar" alt="Аватар автора">
+          </button>
           <div class="profile__details">
             <div class="profile__name-field">
               <h1 class="profile__name">И.Ф. Крузенштерн</h1>
@@ -44,6 +46,7 @@
     </footer>
   </div>
 
+  <!--ПОПАП ДАННЫХ ПРОФИЛЯ-->
   <div class="popup profile-popup">
     <div class="popup__form-container">
       <form class="popup__form" id="profile-popup-form" name="profilePopupForm">
@@ -63,6 +66,35 @@
     </div>
   </div>
 
+<!--ПОПАП АВАТАРА ПРОФИЛЯ-->
+  <div class="popup profile-ava-popup">
+    <div class="popup__form-container">
+      <form class="popup__form" id="profile-ava-popup-form" name="profileAvaPopupForm">
+        <h2 class="popup__title">Обновить аватар</h2>
+        <fieldset class="popup__fieldset">
+          <input type="url" class="popup__input popup__input_type_link" placeholder="Введите ссылку" name="link" required>
+          <span class="popup__input-error link-error"></span>
+        </fieldset>
+          <button type="submit" class="popup__save-button" name="submitBtn">Сохранить</button>
+        <button type="button" class="popup__exit-button link-transparency" name="closeBtn"
+          aria-label="Закрыть окно"></button>
+      </form>
+    </div>
+  </div>
+
+<!--ПОПАП ПОДТВЕРЖДЕНИЯ-->
+<div class="popup confirm-popup">
+  <div class="popup__form-container">
+    <form class="popup__form" id="confirm-popup-form" name="confirmPopupForm">
+      <h2 class="popup__title popup__title_type_confirm">Вы уверены?</h2>
+        <button type="submit" class="popup__save-button" name="submitBtn">Да</button>
+      <button type="button" class="popup__exit-button link-transparency" name="closeBtn"
+        aria-label="Закрыть окно"></button>
+    </form>
+  </div>
+</div>
+
+<!--ПОПАП ДАННЫХ МЕСТА-->  
   <div class="popup card-popup">
     <div class="popup__form-container">
       <form class="popup__form" id="card-popup-form" name="cardPopupForm">
@@ -83,6 +115,7 @@
     </div>
   </div>
 
+<!--ПОПАП С ФОТОГРАФИЕЙ МЕСТА-->
   <div class="popup popup_high-opacity image-popup">
     <div class="popup__image-container">
       <img src="#" class="popup__image" alt="">
@@ -98,7 +131,10 @@
       <button type="button" class="elements__del-button link-transparency"></button>
       <div class="elements__item-info">
         <h3 class="elements__item-title"></h3>
-        <button type="button" class="elements__like-button" aria-label="Поставить лайк"></button>
+        <div class="elements__like-div">
+          <button type="button" class="elements__like-button" aria-label="Поставить лайк"></button>
+          <p class="elements__likes">0</p>
+        </div>
       </div>
     </article>
   </template>
