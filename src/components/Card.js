@@ -25,20 +25,23 @@ export default class Card {
   }
   
   //Метод установки слушателей событий на карточку
-  _setEventListeners = () => {
+  _setEventListeners = (isMine=false) => {
     this._newCard.querySelector('.elements__like-button').addEventListener('click', this._handleLikeClick);
-    this._newCard.querySelector('.elements__del-button').addEventListener('click', this._handleRemoveClick);
+    const delBtn = this._newCard.querySelector('.elements__del-button');
+    isMine
+      ? delBtn.addEventListener('click', this._handleRemoveClick)
+      : delBtn.style.display = 'none';
     this._newCardImage.addEventListener('click', () => {this._handleCardClick({name:this._name, link:this._link})});
   }
 
   //Метод добавления контента и поведения новой карточки
-  createCard() {
+  createCard(isMine=false) {
     this._newCard = this._getTemplate();
     this._newCardImage = this._newCard.querySelector('.elements__item-image');
     this._newCardImage.src = this._link;
     this._newCardImage.alt = `Фото ${this._name}`;
     this._newCard.querySelector('.elements__item-title').textContent = this._name;
-    this._setEventListeners();
+    this._setEventListeners(isMine);
     return this._newCard;
   }
 }

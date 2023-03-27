@@ -1,14 +1,14 @@
 //Список мест и ссылок на изображения 6 из задания + 6 из ПР4
-import capetown from '../images/cape-town.jpg';
+/*import capetown from '../images/cape-town.jpg';
 import macau from '../images/macau.jpg';
 import havaii from '../images/havaii.jpg';
 import florianopolis from '../images/florianopolis.jpg';
 import tenerife from '../images/tenerife.jpg';
-import saintPetersburg from '../images/saint-petersburg.jpg';
+import saintPetersburg from '../images/saint-petersburg.jpg';*/
 
 
 export const initialCards = [
-  {
+/*  {
     name: 'Кейптаун, ЮАР',
     link: capetown
   },
@@ -31,7 +31,7 @@ export const initialCards = [
   {
     name: 'Санкт-Петербург, Россия',
     link: saintPetersburg
-  },
+  },*/
   {
     name: 'Архыз',
     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
@@ -66,4 +66,12 @@ export const validationConfig = {
   inactiveButtonClass: 'popup__save-button_inactive',
   inputErrorClass: 'popup__input_type_error',
   errorClass: 'popup__input-error_visible'
+};
+
+export const connectionConfig = {
+  server: 'https://mesto.nomoreparties.co/v1',
+  profileDataPath : 'users/me',
+  cardsDataPath : 'cards',
+  token : '6190affa-5b62-40b0-ae29-11fd0f040107',
+  group : 'cohort-63'
 };

@@ -1,7 +1,8 @@
 export default class UserInfo {
-  constructor ({nameSelector, profSelector }) {
+  constructor ({nameSelector, profSelector, avaSelector }) {
     this._nameField = document.querySelector(nameSelector);
     this._profField = document.querySelector(profSelector);
+    this._avatar = document.querySelector(avaSelector);
   }
 
   //Метод получения данных пользователя из соответствующих полей на странице
@@ -16,5 +17,9 @@ export default class UserInfo {
   setUserInfo ({ name, prof }) {
     this._nameField.textContent = name;
     this._profField.textContent = prof;
+  }
+
+  setUserAvatar({ link }) {
+    this._avatar.style['background-image'] = `url(${link})`;
   }
 }

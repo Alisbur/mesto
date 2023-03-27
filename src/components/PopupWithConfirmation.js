@@ -1,18 +1,16 @@
 import Popup from './Popup.js';
 
 export default class PopupWithConfirmation extends Popup {
-  constructor({ popupSelector, formSelector, btnSelector }, submitCallback) {
+  constructor({ popupSelector, formSelector }, submitCallback) {
     super(popupSelector);
     this._form = this._popup.querySelector(formSelector);
-    this._btn = this._popup.querySelectorAll(btnSelector);
     this._submitCallback = submitCallback;
   }
-  
+
   //Обработчик сабмита формы
   _handlerSubmitForm = (evt) => {
     evt.preventDefault();
-    const values = this._getInputValues();
-    this._submitCallback(values);
+    this._submitCallback();
     this.closePopup();
   }
 
@@ -20,14 +18,6 @@ export default class PopupWithConfirmation extends Popup {
   setEventListeners () {
     super.setEventListeners();
     this._form.addEventListener('submit', this._handlerSubmitForm);
-  }
-
-  renderSaving(isSaving) {
-    if (isSaving) {
-      this.btn.textContent = 'Сохранение...';
-    } else {
-      this.btn.textContent = 'Сохранить';
-    }
   }
 
   //Метод закрытия попапа

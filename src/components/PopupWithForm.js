@@ -1,19 +1,32 @@
 import Popup from './Popup.js';
 
 export default class PopupWithForm extends Popup {
-  constructor({ popupSelector, formSelector, inputSelector }, submitCallback) {
+  constructor({ popupSelector, formSelector, inputSelector, sbmtBtnSelector }, submitCallback) {
     super(popupSelector);
     this._form = this._popup.querySelector(formSelector);
     this._inputList = this._popup.querySelectorAll(inputSelector);
+    this._sbmtBtn = this._form.querySelector(sbmtBtnSelector);
+    this._sbmtBtnInitialText = this._sbmtBtn.textContent;
     this._submitCallback = submitCallback;
   }
-  
+
+  //Метод изменения надписи кнопки во время загрузки данных
+  _renderSaving(isSaving) {
+    if (isSaving) {
+      this._sbmtBtn.textContent = 'Сохранение...';
+    } else {
+      this._sbmtBtn.textContent = this._sbmtBtnInitialText;
+    }
+  }
+
   //Обработчик сабмита формы
   _handlerSubmitForm = (evt) => {
     evt.preventDefault();
+    this._renderSaving(true);
     const values = this._getInputValues();
     this._submitCallback(values);
     this.closePopup();
+    setTimeout(() => this._renderSaving(false), 400);
   }
 
   //Метод установки слушателей событий на попап и форму
