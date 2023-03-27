@@ -114,9 +114,8 @@ const cardPopup = new PopupWithForm({
     sbmtBtnSelector : '.popup__save-button'
   }, 
   (cardData) => {
-    /*api.addCard(cardData)*/
-    console.log(cardData);
-    section.renderCard(cardData);
+    api.addNewCard(cardData).then((res) => console.log(res));
+    /*section.renderCard(cardData);*/
   }); 
   cardPopup.setEventListeners();
 
