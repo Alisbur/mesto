@@ -1,6 +1,5 @@
 export default class Section {
-  constructor ({ data, renderer }, containerSelector) {
-    this._rendereditems = data;
+  constructor (renderer , containerSelector) {
     this._renderer = renderer;
     this._container = document.querySelector(containerSelector);
   }
@@ -12,8 +11,8 @@ export default class Section {
   }
 
   //Метод создания карточек исходного массива 
-  renderInitialCards () {
-    this._rendereditems.forEach((item) => this.renderCard({ name : item.name, link : item.link }));
+  renderInitialCards (items) {
+    items.forEach((item) => this.renderCard({ name : item.name, link : item.link }));
   }
 
   //Метод добавления вёрстки карточки в DOM

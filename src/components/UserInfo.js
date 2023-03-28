@@ -1,5 +1,5 @@
 export default class UserInfo {
-  constructor ({nameSelector, profSelector, avaSelector }) {
+  constructor ({nameSelector, profSelector, avaSelector, idSelector }) {
     this._nameField = document.querySelector(nameSelector);
     this._profField = document.querySelector(profSelector);
     this._avatar = document.querySelector(avaSelector);
@@ -17,6 +17,18 @@ export default class UserInfo {
   setUserInfo ({ name, prof }) {
     this._nameField.textContent = name;
     this._profField.textContent = prof;
+  }
+
+  setUserId({ id }) {
+    this._id = id;
+  }
+
+  _getUserId() {
+    return this._id;
+  }
+
+  isItMe(id) {
+    return this._getUserId() === id;
   }
 
   setUserAvatar({ link }) {

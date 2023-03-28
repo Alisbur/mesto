@@ -24,9 +24,10 @@ export default class PopupWithForm extends Popup {
     evt.preventDefault();
     this._renderSaving(true);
     const values = this._getInputValues();
-    this._submitCallback(values);
-    this.closePopup();
-    setTimeout(() => this._renderSaving(false), 400);
+    this._submitCallback(values).finally(()=>{
+      this.closePopup();
+      setTimeout(() => this._renderSaving(false), 400);
+    });
   }
 
   //Метод установки слушателей событий на попап и форму

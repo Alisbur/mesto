@@ -13,6 +13,7 @@ import { validationConfig, connectionConfig } from '../utils/constants.js';
 //Константы кнопок на главной странице
 const editButton = document.querySelector('.profile__edit-button');
 const addButton = document.querySelector('.profile__add-button');
+const avaButton = document.querySelector(".profile__avatar-button");
 
 //Id шаблона вёрстки новой карточки
 const newCardTemplate = '#article-id';
@@ -22,36 +23,39 @@ setTimeout(() => {
   document.querySelector('.profile-popup').classList.add("popup_transition");
   document.querySelector('.card-popup').classList.add("popup_transition");
   document.querySelector('.image-popup').classList.add("popup_transition");
+  document.querySelector('.profile-ava-popup').classList.add("popup_transition");
+  document.querySelector('.confirm-popup').classList.add("popup_transition");
   }, 1);
-
 
 //Создаём экземпляр данных профиля
 const userInfo = new UserInfo ({ 
   nameSelector:'.profile__name', 
   profSelector: '.profile__profession',
-  avaSelector: '.profile__avatar-button'
+  avaSelector: '.profile__avatar-button',
   });
 
-//Создаём экземпляр api и запрашиваем данные на сервере
+//Создаём экземпляр секции для добавления карточек
+const section = new Section((cardData) => {
+  const newCard = new Card(cardData, newCardTemplate, handleCardClick);
+  const cardElement = newCard.createCard();
+  return cardElement;
+  }, '.elements');
+
+//Создаём экземпляр api
 const api = new Api(connectionConfig);
-const profileDataPromise = api.getProfileData();
-const initialCardsPromise = api.getInitialCards();
 
-console.log(profileDataPromise);
-
-profileDataPromise.then((data) => {
+//Запрашиваем данные пользователя
+const getProfileDataRequest = api.getProfileData();
+getProfileDataRequest.then((data) => {
+  userInfo.setUserId({ id:data._id });
   userInfo.setUserInfo({name:data.name, prof:data.about});
   userInfo.setUserAvatar({link:data.avatar});
 });
 
-initialCardsPromise.then((initialCards) => {
-  const section = new Section({ data : initialCards, renderer: (cardData) => {
-    const newCard = new Card(cardData, newCardTemplate, handleCardClick);
-    const cardElement = newCard.createCard();
-    return cardElement;
-    }}, '.elements');
-    section.renderInitialCards();
-});
+
+const getInitialCardsRequest = api.getInitialCards();
+  getInitialCardsRequest.then((initialCards) => section.renderInitialCards(initialCards));
+  console.log(getInitialCardsRequest);
 
 //Создаём экземпляр валидатора формы редактирования данных профиля
 const profilePopupFormValidator = new FormValidator(document.forms["profilePopupForm"], validationConfig);
@@ -64,6 +68,8 @@ addCardPopupFormValidator.enableValidation();
 //Создаём экземпляр валидатора формы загрузки аватара
 const avatarEditPopupFormValidator = new FormValidator(document.forms["profileAvaPopupForm"], validationConfig);
 avatarEditPopupFormValidator.enableValidation();
+
+//-----------------------------ПОПАП С ИЗОБРАЖЕНИЕМ-----------------------------
 
 //Создаём экземпляр попапа с изображением
 const imagePopup = new PopupWithImage({
@@ -88,10 +94,11 @@ const profilePopup = new PopupWithForm({
     sbmtBtnSelector : '.popup__save-button'
   },
   (values) => {
-    api.modifyProfileData(values)
+    const modifyProfileDataRequest = api.modifyProfileData(values);
+    modifyProfileDataRequest
       .then((data)=>userInfo.setUserInfo({name:data.name, prof:data.about}))
-      .catch((err)=>console.error('ХРЕНЬ', err));
-    /*userInfo.setUserInfo(values);*/
+      .catch((err)=>console.error('ОШИБКА', err));
+      return modifyProfileDataRequest;
   });
   profilePopup.setEventListeners();
 
@@ -114,8 +121,8 @@ const cardPopup = new PopupWithForm({
     sbmtBtnSelector : '.popup__save-button'
   }, 
   (cardData) => {
-    api.addNewCard(cardData).then((res) => console.log(res));
-    /*section.renderCard(cardData);*/
+    const addNewCardRequest = api.addNewCard(cardData).then((initialCards)=>section.renderInitialCards(initialCards));
+    return addNewCardRequest;
   }); 
   cardPopup.setEventListeners();
 
@@ -134,19 +141,16 @@ const avatarPopup = new PopupWithForm({
   inputSelector : '.popup__input',
   sbmtBtnSelector : '.popup__save-button'
 },
-(link) => {
-  console.log('TEST',link);
-  api.setUserAvatar(link)/*.then((data) => console.log(data))*/;
-  userInfo.setUserAvatar(link);
+(lnk) => {
+  const avatarSetupRequest = api.setUserAvatar(lnk);
+  avatarSetupRequest.then((data) => userInfo.setUserAvatar({ link:data.avatar}));
+  return avatarSetupRequest;
 });
-
 avatarPopup.setEventListeners();
 
-document.querySelector(".profile__avatar-button").addEventListener("click", () => {
+avaButton.addEventListener("click", () => {
   avatarPopup.openPopup();
   avatarEditPopupFormValidator.resetFormErrors();
-  
-  //confirmPopup.openPopup();
 });
 
 
