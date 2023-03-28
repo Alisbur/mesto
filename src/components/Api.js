@@ -75,6 +75,26 @@ export default class Api {
     return this._requestServer(path, message);
   }
 
+  putLike(cardId) {
+    const path = `${this._server}/${this._group}/${this._cardsDataPath}/${cardId}/likes`;
+    const message = { 
+      method: 'PUT',
+      headers: {
+        authorization: this._token,
+      }}
+    return this._requestServer(path, message);
+  }
+
+  deleteLike(cardId) {
+    const path = `${this._server}/${this._group}/${this._cardsDataPath}/${cardId}/likes`;
+    const message = { 
+      method: 'DELETE',
+      headers: {
+        authorization: this._token,
+      }}
+    return this._requestServer(path, message);
+  }
+
   deleteCard() {}
 
 }

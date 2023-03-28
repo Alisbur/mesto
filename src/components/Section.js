@@ -5,14 +5,14 @@ export default class Section {
   }
 
   //Метод создания одиночной карточки и добавления её в DOM
-  renderCard (cardData) {
-    const cardElement = this._renderer(cardData);
+  renderCard (cardData, id = '') {
+    const cardElement = this._renderer(cardData, id);
     this.addItem(cardElement);
   }
 
   //Метод создания карточек исходного массива 
-  renderInitialCards (items) {
-    items.forEach((item) => this.renderCard({ name : item.name, link : item.link }));
+  renderInitialCards (items, id) {
+    items.forEach((item) => this.renderCard(item /*{ name : item.name, link : item.link }*/, id));
   }
 
   //Метод добавления вёрстки карточки в DOM

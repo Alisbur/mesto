@@ -34,28 +34,54 @@ const userInfo = new UserInfo ({
   avaSelector: '.profile__avatar-button',
   });
 
-//Создаём экземпляр секции для добавления карточек
-const section = new Section((cardData) => {
-  const newCard = new Card(cardData, newCardTemplate, handleCardClick);
-  const cardElement = newCard.createCard();
-  return cardElement;
-  }, '.elements');
 
 //Создаём экземпляр api
 const api = new Api(connectionConfig);
 
+//Создаём экземпляр секции для добавления карточек
+const section = new Section((cardData, id='') => {
+  const isMine = id === cardData.owner._id;
+  const likes = cardData.likes.length;
+  const isLikedByMe = cardData.likes.some((el)=>el._id===id);
+  console.log(isLikedByMe);
+
+  const newCard = new Card(cardData, newCardTemplate, handleCardClick, cardData._id, isMine, likes, isLikedByMe, 
+    (cardId)=>{return api.putLike(cardId)}, 
+    (cardId)=>{return api.deleteLike(cardId)}  
+  );
+  const cardElement = newCard.createCard();
+  return cardElement;
+  }, '.elements');
+
 //Запрашиваем данные пользователя
-const getProfileDataRequest = api.getProfileData();
+/*const getProfileDataRequest = api.getProfileData();
 getProfileDataRequest.then((data) => {
   userInfo.setUserId({ id:data._id });
   userInfo.setUserInfo({name:data.name, prof:data.about});
   userInfo.setUserAvatar({link:data.avatar});
 });
 
-
 const getInitialCardsRequest = api.getInitialCards();
-  getInitialCardsRequest.then((initialCards) => section.renderInitialCards(initialCards));
-  console.log(getInitialCardsRequest);
+  getInitialCardsRequest
+    .then((initialCards) => {section.renderInitialCards(initialCards);
+    getProfileDataRequest.then(data=>temp=data._id).then(()=>console.log(temp));
+  });*/
+
+api.getProfileData()
+  .then((data) => {
+    userInfo.setUserInfo({name:data.name, prof:data.about});
+    userInfo.setUserAvatar({link:data.avatar});
+    return data._id;
+  })
+  .then((myId) => {
+    api.getInitialCards()
+      .then(initialCards => {
+        section.renderInitialCards(initialCards, myId);
+        console.log(initialCards);
+      });
+  });
+
+/*  console.log(getInitialCardsRequest);*/
 
 //Создаём экземпляр валидатора формы редактирования данных профиля
 const profilePopupFormValidator = new FormValidator(document.forms["profilePopupForm"], validationConfig);
