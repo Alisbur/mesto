@@ -51,7 +51,7 @@ const userInfo = new UserInfo ({
 const api = new Api(connectionConfig);
 
 //Создаём экземпляр секции для добавления карточек
-const section = new Section((cardData, id='') => {
+const section = new Section((cardData, id=cardData.owner._id) => {
   const isMine = id === cardData.owner._id;
   const likes = cardData.likes.length;
   const isLikedByMe = cardData.likes.some((el)=>el._id===id);
@@ -64,7 +64,8 @@ const section = new Section((cardData, id='') => {
   return cardElement;
   }, '.elements');
 
-//Получаем данные пользователя и выводим массив карточек  
+//Получаем данные пользователя и выводим массив карточек
+
 api.getProfileData()
   .then((data) => {
     userInfo.setUserInfo({name:data.name, prof:data.about});
@@ -128,7 +129,7 @@ const cardPopup = new PopupWithForm({
     sbmtBtnSelector : '.popup__save-button'
   }, 
   (cardData) => {
-    return api.addNewCard(cardData).then((res)=>section.renderCard(res));
+    return api.addNewCard(cardData).then((res)=>section.renderCard(res,res.owner._id));
   }); 
   cardPopup.setEventListeners();
 
