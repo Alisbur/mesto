@@ -12,7 +12,7 @@ export default class Section {
 
   //Метод создания карточек исходного массива 
   renderInitialCards (items, id) {
-    items.forEach((item) => this.renderCard(item /*{ name : item.name, link : item.link }*/, id));
+    items.forEach((item) => this.renderCard(item, id));
   }
 
   //Метод добавления вёрстки карточки в DOM

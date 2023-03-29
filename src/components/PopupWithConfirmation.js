@@ -1,9 +1,13 @@
 import Popup from './Popup.js';
 
 export default class PopupWithConfirmation extends Popup {
-  constructor({ popupSelector, formSelector }, submitCallback) {
+  constructor({ popupSelector, formSelector }, submitCallBack) {
     super(popupSelector);
     this._form = this._popup.querySelector(formSelector);
+    this._submitCallBack = submitCallBack;
+  }
+
+  _setSubmitCallBack(submitCallback) {
     this._submitCallback = submitCallback;
   }
 
@@ -19,6 +23,11 @@ export default class PopupWithConfirmation extends Popup {
     super.setEventListeners();
     this._form.addEventListener('submit', this._handlerSubmitForm);
   }
+
+/*  openPopup (submitCallback = ()=>{}) {
+    super.openPopup();
+    this._setSubmitCallBack(submitCallback);
+  }*/
 
   //Метод закрытия попапа
   closePopup () {

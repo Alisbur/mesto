@@ -95,6 +95,13 @@ export default class Api {
     return this._requestServer(path, message);
   }
 
-  deleteCard() {}
-
+  deleteCard(cardId) {
+    const path = `${this._server}/${this._group}/${this._cardsDataPath}/${cardId}`;
+    const message = { 
+      method: 'DELETE',
+      headers: {
+        authorization: this._token,
+      }}
+    return this._requestServer(path, message);
+  }
 }

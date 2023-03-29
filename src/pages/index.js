@@ -27,13 +27,25 @@ setTimeout(() => {
   document.querySelector('.confirm-popup').classList.add("popup_transition");
   }, 1);
 
+
+//Создаём экземпляр валидатора формы редактирования данных профиля
+const profilePopupFormValidator = new FormValidator(document.forms["profilePopupForm"], validationConfig);
+profilePopupFormValidator.enableValidation();
+
+//Создаём экземпляр валидатора формы добавления карточек
+const addCardPopupFormValidator = new FormValidator(document.forms["cardPopupForm"], validationConfig);
+addCardPopupFormValidator.enableValidation();
+
+//Создаём экземпляр валидатора формы загрузки аватара
+const avatarEditPopupFormValidator = new FormValidator(document.forms["profileAvaPopupForm"], validationConfig);
+avatarEditPopupFormValidator.enableValidation();
+
 //Создаём экземпляр данных профиля
 const userInfo = new UserInfo ({ 
   nameSelector:'.profile__name', 
   profSelector: '.profile__profession',
   avaSelector: '.profile__avatar-button',
   });
-
 
 //Создаём экземпляр api
 const api = new Api(connectionConfig);
@@ -43,30 +55,16 @@ const section = new Section((cardData, id='') => {
   const isMine = id === cardData.owner._id;
   const likes = cardData.likes.length;
   const isLikedByMe = cardData.likes.some((el)=>el._id===id);
-  console.log(isLikedByMe);
-
   const newCard = new Card(cardData, newCardTemplate, handleCardClick, cardData._id, isMine, likes, isLikedByMe, 
     (cardId)=>{return api.putLike(cardId)}, 
-    (cardId)=>{return api.deleteLike(cardId)}  
+    (cardId)=>{return api.deleteLike(cardId)},
+    (cardId)=>{return api.deleteCard(cardId)}
   );
   const cardElement = newCard.createCard();
   return cardElement;
   }, '.elements');
 
-//Запрашиваем данные пользователя
-/*const getProfileDataRequest = api.getProfileData();
-getProfileDataRequest.then((data) => {
-  userInfo.setUserId({ id:data._id });
-  userInfo.setUserInfo({name:data.name, prof:data.about});
-  userInfo.setUserAvatar({link:data.avatar});
-});
-
-const getInitialCardsRequest = api.getInitialCards();
-  getInitialCardsRequest
-    .then((initialCards) => {section.renderInitialCards(initialCards);
-    getProfileDataRequest.then(data=>temp=data._id).then(()=>console.log(temp));
-  });*/
-
+//Получаем данные пользователя и выводим массив карточек  
 api.getProfileData()
   .then((data) => {
     userInfo.setUserInfo({name:data.name, prof:data.about});
@@ -80,20 +78,6 @@ api.getProfileData()
         console.log(initialCards);
       });
   });
-
-/*  console.log(getInitialCardsRequest);*/
-
-//Создаём экземпляр валидатора формы редактирования данных профиля
-const profilePopupFormValidator = new FormValidator(document.forms["profilePopupForm"], validationConfig);
-profilePopupFormValidator.enableValidation();
-
-//Создаём экземпляр валидатора формы добавления карточек
-const addCardPopupFormValidator = new FormValidator(document.forms["cardPopupForm"], validationConfig);
-addCardPopupFormValidator.enableValidation();
-
-//Создаём экземпляр валидатора формы загрузки аватара
-const avatarEditPopupFormValidator = new FormValidator(document.forms["profileAvaPopupForm"], validationConfig);
-avatarEditPopupFormValidator.enableValidation();
 
 //-----------------------------ПОПАП С ИЗОБРАЖЕНИЕМ-----------------------------
 
@@ -120,11 +104,9 @@ const profilePopup = new PopupWithForm({
     sbmtBtnSelector : '.popup__save-button'
   },
   (values) => {
-    const modifyProfileDataRequest = api.modifyProfileData(values);
-    modifyProfileDataRequest
+    return api.modifyProfileData(values)
       .then((data)=>userInfo.setUserInfo({name:data.name, prof:data.about}))
       .catch((err)=>console.error('ОШИБКА', err));
-      return modifyProfileDataRequest;
   });
   profilePopup.setEventListeners();
 
@@ -135,7 +117,6 @@ editButton.addEventListener('click', () => {
   profilePopup.openPopup();
   profilePopupFormValidator.resetFormErrors();
   });
-  
 
 //-----------------------------ПОПАП КАРТОЧКИ МЕСТА-----------------------------
 
@@ -147,8 +128,7 @@ const cardPopup = new PopupWithForm({
     sbmtBtnSelector : '.popup__save-button'
   }, 
   (cardData) => {
-    const addNewCardRequest = api.addNewCard(cardData).then((initialCards)=>section.renderInitialCards(initialCards));
-    return addNewCardRequest;
+    return api.addNewCard(cardData).then((res)=>section.renderCard(res));
   }); 
   cardPopup.setEventListeners();
 
@@ -168,9 +148,8 @@ const avatarPopup = new PopupWithForm({
   sbmtBtnSelector : '.popup__save-button'
 },
 (lnk) => {
-  const avatarSetupRequest = api.setUserAvatar(lnk);
-  avatarSetupRequest.then((data) => userInfo.setUserAvatar({ link:data.avatar}));
-  return avatarSetupRequest;
+  return api.setUserAvatar(lnk)
+    .then((data) => userInfo.setUserAvatar({ link:data.avatar}));
 });
 avatarPopup.setEventListeners();
 
@@ -187,5 +166,5 @@ const confirmPopup = new PopupWithConfirmation({
   popupSelector : '.confirm-popup', 
   formSelector : '.popup__form',
   inputSelector : '.popup__input',
-},
-(values) => {});
+}, () => {});
+confirmPopup.setEventListeners();

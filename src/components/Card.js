@@ -1,6 +1,9 @@
 export default class Card {
   //Конструктор класса Card
-  constructor({ name, link }, newCardTemplate, handleCardClick, cardId = '', isMine = true, likes = 0, isLikedByMe = false, putLike, deleteLike) {
+  constructor({ name, link }, newCardTemplate, handleCardClick, 
+                cardId = '', isMine = true, likes = 0, isLikedByMe = false, 
+                putLike, deleteLike, deleteCard) 
+  {
     this._name = name;
     this._link = link;
     this._newCardTemplate = newCardTemplate;
@@ -13,6 +16,7 @@ export default class Card {
 
     this._putLike = putLike;
     this._deleteLike = deleteLike;
+    this._deleteCard = deleteCard;
   }
 
   //Метод создания темплейта новой карточки
@@ -23,8 +27,12 @@ export default class Card {
 
   //Хендлер удаления карточки нажатием на корзину
   _handleRemoveClick = () => {
-    this._newCard.remove()
-    this._newCard = null;
+    this._deleteCard(this._cardId)
+      .then(() => {
+        this._newCard.remove()
+        this._newCard = null;
+      })
+      .catch(()=>{});
   }
 
   //Хендлер нажатия на сердечко
