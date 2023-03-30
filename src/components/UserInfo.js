@@ -19,18 +19,6 @@ export default class UserInfo {
     this._profField.textContent = prof;
   }
 
-  setUserId({ id }) {
-    this._id = id;
-  }
-
-  _getUserId() {
-    return this._id;
-  }
-
-  isItMe(id) {
-    return this._getUserId() === id;
-  }
-
   setUserAvatar({ link }) {
     this._avatar.style['background-image'] = `url(${link})`;
   }

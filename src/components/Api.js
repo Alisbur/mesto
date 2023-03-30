@@ -14,7 +14,10 @@ export default class Api {
           return res.json();
         return Promise.reject(res.status);
       })
-      .catch((err) => console.error(`Запрос не выполнен! Ошибка: ${err}`));
+      .catch((err) => {
+        alert(`Запрос не выполнен! Ошибка: ${err}`);
+        console.error(`Запрос не выполнен! Ошибка: ${err}`)
+      });
   }
 
   getProfileData() {
@@ -39,7 +42,7 @@ export default class Api {
   }
 
   setUserAvatar( {link} ) {
-    const path = `${this._server}/${this._group}/${this._profileDataPath}/avatar `;
+    const path = `${this._server}/${this._group}/${this._profileDataPath+"/avatar"}`;
     const message = { 
       method: 'PATCH',
       headers: {
@@ -76,7 +79,7 @@ export default class Api {
   }
 
   putLike(cardId) {
-    const path = `${this._server}/${this._group}/${this._cardsDataPath}/${cardId}/likes`;
+    const path = `${this._server}/${this._group}/${this._cardsDataPath}/${cardId+"/likes"}`;
     const message = { 
       method: 'PUT',
       headers: {
@@ -86,7 +89,7 @@ export default class Api {
   }
 
   deleteLike(cardId) {
-    const path = `${this._server}/${this._group}/${this._cardsDataPath}/${cardId}/likes`;
+    const path = `${this._server}/${this._group}/${this._cardsDataPath}/${cardId+"/likes"}`;
     const message = { 
       method: 'DELETE',
       headers: {

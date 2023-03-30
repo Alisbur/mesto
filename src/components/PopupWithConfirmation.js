@@ -7,15 +7,12 @@ export default class PopupWithConfirmation extends Popup {
     this._submitCallBack = submitCallBack;
   }
 
-  _setSubmitCallBack(submitCallback) {
-    this._submitCallback = submitCallback;
-  }
-
   //Обработчик сабмита формы
   _handlerSubmitForm = (evt) => {
     evt.preventDefault();
-    this._submitCallback();
-    this.closePopup();
+    this._submitCallBack(this._cardId, this._cardEl)
+      .then(() => {console.log(this._cardEl);this._cardEl.remove()})
+      .finally(() => this.closePopup());
   }
 
   //Метод установки слушателей событий на попап и форму
@@ -24,10 +21,12 @@ export default class PopupWithConfirmation extends Popup {
     this._form.addEventListener('submit', this._handlerSubmitForm);
   }
 
-/*  openPopup (submitCallback = ()=>{}) {
+  //Метод открытия Popup
+  openPopup (cardId, cardEl) {
     super.openPopup();
-    this._setSubmitCallBack(submitCallback);
-  }*/
+    this._cardId = cardId;
+    this._cardEl = cardEl;
+  }
 
   //Метод закрытия попапа
   closePopup () {

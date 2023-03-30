@@ -27,7 +27,6 @@ setTimeout(() => {
   document.querySelector('.confirm-popup').classList.add("popup_transition");
   }, 1);
 
-
 //Создаём экземпляр валидатора формы редактирования данных профиля
 const profilePopupFormValidator = new FormValidator(document.forms["profilePopupForm"], validationConfig);
 profilePopupFormValidator.enableValidation();
@@ -56,16 +55,15 @@ const section = new Section((cardData, id=cardData.owner._id) => {
   const likes = cardData.likes.length;
   const isLikedByMe = cardData.likes.some((el)=>el._id===id);
   const newCard = new Card(cardData, newCardTemplate, handleCardClick, cardData._id, isMine, likes, isLikedByMe, 
-    (cardId)=>{return api.putLike(cardId)}, 
-    (cardId)=>{return api.deleteLike(cardId)},
-    (cardId)=>{return api.deleteCard(cardId)}
+    (cardId) => {return api.putLike(cardId)}, 
+    (cardId) => {return api.deleteLike(cardId)},
+    (cardId, cardEl) => {confirmPopup.openPopup(cardId, cardEl)}
   );
   const cardElement = newCard.createCard();
   return cardElement;
   }, '.elements');
 
 //Получаем данные пользователя и выводим массив карточек
-
 api.getProfileData()
   .then((data) => {
     userInfo.setUserInfo({name:data.name, prof:data.about});
@@ -159,7 +157,6 @@ avaButton.addEventListener("click", () => {
   avatarEditPopupFormValidator.resetFormErrors();
 });
 
-
 //-----------------------------ПОПАП ПОДТВЕРЖДЕНИЯ УДАЛЕНИЯ КАРТОЧКИ-----------------------------
 
 //Создаём экземпляр попапа с формой подтверждения
@@ -167,5 +164,5 @@ const confirmPopup = new PopupWithConfirmation({
   popupSelector : '.confirm-popup', 
   formSelector : '.popup__form',
   inputSelector : '.popup__input',
-}, () => {});
+}, (cardId) => {return api.deleteCard(cardId)});
 confirmPopup.setEventListeners();

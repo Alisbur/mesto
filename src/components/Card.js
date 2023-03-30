@@ -4,16 +4,19 @@ export default class Card {
                 cardId = '', isMine = true, likes = 0, isLikedByMe = false, 
                 putLike, deleteLike, deleteCard) 
   {
+  //Обязательные параметры и методы карточек
     this._name = name;
     this._link = link;
     this._newCardTemplate = newCardTemplate;
     this._handleCardClick = handleCardClick;
     
+  //Параметры карточек, загржаемых с сервера
     this._cardId = cardId;
     this._isMine = isMine;
     this._likes = likes;
     this._isLikedByMe = isLikedByMe;
 
+  //Методы карточек
     this._putLike = putLike;
     this._deleteLike = deleteLike;
     this._deleteCard = deleteCard;
@@ -27,15 +30,11 @@ export default class Card {
 
   //Хендлер удаления карточки нажатием на корзину
   _handleRemoveClick = () => {
-    this._deleteCard(this._cardId)
-      .then(() => {
-        this._newCard.remove()
-        this._newCard = null;
-      })
-      .catch(()=>{});
+    console.log(this._newCard);
+    this._deleteCard(this._cardId, this._newCard);
   }
 
-  //Хендлер нажатия на сердечко
+  //Хендлер нажатия на иконку сердечка
   _handleLikeClick = (evt) => {
     if (this._isLikedByMe) {
       this._deleteLike(this._cardId)
@@ -64,6 +63,7 @@ export default class Card {
     this._newCardImage.addEventListener('click', () => {this._handleCardClick({name:this._name, link:this._link})});
   }
 
+  //Метод добавления количества лайков и установки актуального состояния иконки сердечка
   setLikes(likes = this._likes) {
     this._likesCounter.textContent = likes;
     if (this._isLikedByMe)
@@ -80,7 +80,6 @@ export default class Card {
     this._likesCounter = this._newCard.querySelector('.elements__likes');
     this._delBtn = this._newCard.querySelector('.elements__del-button');
     this._likeBtn = this._newCard.querySelector('.elements__like-button');
-    
     this.setLikes();
     this._setEventListeners();
     return this._newCard;
