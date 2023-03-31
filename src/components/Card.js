@@ -65,7 +65,10 @@ export default class Card {
 
   //Метод добавления количества лайков и установки актуального состояния иконки сердечка
   setLikes(likes = this._likes) {
-    this._likesCounter.textContent = likes;
+    if (likes<=9999) this._likesCounter.textContent = `${likes}`;
+    else if (likes>1000000000) this._likesCounter.textContent = "> 1M";
+    else if (likes>9999999) this._likesCounter.textContent = `${Math.round(likes/100000)/10} m`;
+    else this._likesCounter.textContent = `${Math.round(likes/100)/10} K`;
     if (this._isLikedByMe)
       this._likeBtn.classList.add('elements__like-button_active');
   }
