@@ -24,11 +24,9 @@ export default class PopupWithForm extends Popup {
     evt.preventDefault();
     this._renderSaving(true);
     const values = this._getInputValues();
-    this._submitCallback(values).finally(()=>{
-      this.closePopup();
-      setTimeout(() => this._renderSaving(false), 400);
-    });
+    this._submitCallback(values);
   }
+  
 
   //Метод установки слушателей событий на попап и форму
   setEventListeners () {
@@ -51,6 +49,9 @@ export default class PopupWithForm extends Popup {
   //Метод закрытия попапа
   closePopup () {
     super.closePopup();
-    setTimeout(() => this._form.reset(), 400); //пауза перед сбросом, чтобы значения не менялись пока попап гаснет
+    setTimeout(() => {
+      this._renderSaving(false);
+      this._form.reset();
+    }, 400); //пауза перед сбросом, чтобы значения не менялись пока попап гаснет
   }
 }

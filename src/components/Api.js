@@ -7,24 +7,23 @@ export default class Api {
     this._group = group;
   }
 
+  //Метод отправки запроса к серверу
   _requestServer(path, message = {headers: {authorization: this._token}}) {
     return fetch(path, message)
       .then((res) => {
         if (res.ok) 
           return res.json();
         return Promise.reject(res.status);
-      })
-      .catch((err) => {
-        alert(`Запрос не выполнен! Ошибка: ${err}`);
-        console.error(`Запрос не выполнен! Ошибка: ${err}`)
       });
   }
 
+  //Метод формирования запроса данных профиля
   getProfileData() {
     const path = `${this._server}/${this._group}/${this._profileDataPath}`;
     return this._requestServer(path);
   }
 
+  //Метод формирования запроса для изменения данных профиля  
   modifyProfileData( {name, prof} ) {
     const path = `${this._server}/${this._group}/${this._profileDataPath}`;
     const message = { 
@@ -41,6 +40,7 @@ export default class Api {
     return this._requestServer(path, message);
   }
 
+  //Метод формирования запроса для изменения аватара
   setUserAvatar( {link} ) {
     const path = `${this._server}/${this._group}/${this._profileDataPath+"/avatar"}`;
     const message = { 
@@ -57,11 +57,13 @@ export default class Api {
     return this._requestServer(path, message);
   }
 
+  //Метод формирования запроса базы карточек
   getInitialCards() {
     const path = `${this._server}/${this._group}/${this._cardsDataPath}`;
     return this._requestServer(path);
   }
 
+  //Метод формирования запроса на добавление карточки
   addNewCard({ name, link }) {
     const path = `${this._server}/${this._group}/${this._cardsDataPath}`;
     const message = { 
@@ -78,6 +80,7 @@ export default class Api {
     return this._requestServer(path, message);
   }
 
+  //Метод формирования запроса для установки лайка
   putLike(cardId) {
     const path = `${this._server}/${this._group}/${this._cardsDataPath}/${cardId+"/likes"}`;
     const message = { 
@@ -88,6 +91,7 @@ export default class Api {
     return this._requestServer(path, message);
   }
 
+  //Метод формирования запроса удаления лайка
   deleteLike(cardId) {
     const path = `${this._server}/${this._group}/${this._cardsDataPath}/${cardId+"/likes"}`;
     const message = { 
@@ -98,6 +102,7 @@ export default class Api {
     return this._requestServer(path, message);
   }
 
+  //Метод формирования запроса для удаления карточки
   deleteCard(cardId) {
     const path = `${this._server}/${this._group}/${this._cardsDataPath}/${cardId}`;
     const message = { 

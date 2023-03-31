@@ -49,16 +49,39 @@ const userInfo = new UserInfo ({
 //Создаём экземпляр api
 const api = new Api(connectionConfig);
 
+//Обработчик постановки лайка и обновления количества лайков
+const handlePutLike = (cardId, cardEl) => {
+  api.putLike(cardId)
+    .then((res) => {
+      cardEl.setLikes(res.likes.length, true);
+      return true;
+    })
+    .catch((err) => {
+      alert(`Запрос на установку лайка не выполнен! Ошибка: ${err}`);
+      console.error(`Запрос на установку лайка не выполнен! Ошибка: ${err}`)
+    });
+}
+
+//Обработчик удаления лайка и обновления количества лайков
+const handleDeleteLike = (cardId, cardEl) => {
+  api.deleteLike(cardId)
+    .then((res) => {
+      cardEl.setLikes(res.likes.length, false);
+      return false;
+    })
+    .catch((err) => {
+      alert(`Запрос на удаление лайка не выполнен! Ошибка: ${err}`);
+      console.error(`Запрос на удаление лайка не выполнен! Ошибка: ${err}`)
+    });
+}
+
 //Создаём экземпляр секции для добавления карточек
 const section = new Section((cardData, id=cardData.owner._id) => {
   const isMine = id === cardData.owner._id;
   const likes = cardData.likes.length;
   const isLikedByMe = cardData.likes.some((el)=>el._id===id);
   const newCard = new Card(cardData, newCardTemplate, handleCardClick, cardData._id, isMine, likes, isLikedByMe, 
-    (cardId) => {return api.putLike(cardId)}, 
-    (cardId) => {return api.deleteLike(cardId)},
-    (cardId, cardEl) => {confirmPopup.openPopup(cardId, cardEl)}
-  );
+    handlePutLike, handleDeleteLike, (cardId, cardEl)=>confirmPopup.openPopup(cardId, cardEl));
   const cardElement = newCard.createCard();
   return cardElement;
   }, '.elements');
@@ -74,8 +97,15 @@ api.getProfileData()
     api.getInitialCards()
       .then(initialCards => {
         section.renderInitialCards(initialCards, myId);
-        console.log(initialCards);
+      })
+      .catch((err) => {
+        alert(`Не удалось загрузить данные карточек! Ошибка: ${err}`);
+        console.error(`Не удалось загрузить данные карточек! Ошибка: ${err}`)
       });
+  })
+  .catch((err) => {
+    alert(`Не удалось загрузить данные профиля пользователя! Ошибка: ${err}`);
+    console.error(`Не удалось загрузить данные профиля пользователя! Ошибка: ${err}`)
   });
 
 //-----------------------------ПОПАП С ИЗОБРАЖЕНИЕМ-----------------------------
@@ -104,8 +134,14 @@ const profilePopup = new PopupWithForm({
   },
   (values) => {
     return api.modifyProfileData(values)
-      .then((data)=>userInfo.setUserInfo({name:data.name, prof:data.about}))
-      .catch((err)=>console.error('ОШИБКА', err));
+    .then((data) => {
+      userInfo.setUserInfo({name:data.name, prof:data.about});
+      profilePopup.closePopup();      
+    })
+    .catch((err) => {
+      alert(`Запрос на изменение данных профиля не выполнен! Ошибка: ${err}`);
+      console.error(`Запрос на изменение данных профиля не выполнен! Ошибка: ${err}`);
+    });
   });
   profilePopup.setEventListeners();
 
@@ -127,7 +163,15 @@ const cardPopup = new PopupWithForm({
     sbmtBtnSelector : '.popup__save-button'
   }, 
   (cardData) => {
-    return api.addNewCard(cardData).then((res)=>section.renderCard(res,res.owner._id));
+    api.addNewCard(cardData)
+      .then((res)=>{
+        section.addItem(res,res.owner._id);
+        cardPopup.closePopup();
+      })
+      .catch((err) => {
+        alert(`Запрос на добавление карточки не выполнен! Ошибка: ${err}`);
+        console.error(`Запрос на добавление карточки не выполнен! Ошибка: ${err}`)
+      });
   }); 
   cardPopup.setEventListeners();
 
@@ -147,8 +191,15 @@ const avatarPopup = new PopupWithForm({
   sbmtBtnSelector : '.popup__save-button'
 },
 (lnk) => {
-  return api.setUserAvatar(lnk)
-    .then((data) => userInfo.setUserAvatar({ link:data.avatar}));
+  api.setUserAvatar(lnk)
+    .then((data) => {
+      userInfo.setUserAvatar({ link:data.avatar});
+      avatarPopup.closePopup();      
+    })
+    .catch((err) => {
+      alert(`Запрос на изменение аватара не выполнен! Ошибка: ${err}`);
+      console.error(`Запрос на изменение аватара не выполнен! Ошибка: ${err}`);
+    });
 });
 avatarPopup.setEventListeners();
 
@@ -164,5 +215,16 @@ const confirmPopup = new PopupWithConfirmation({
   popupSelector : '.confirm-popup', 
   formSelector : '.popup__form',
   inputSelector : '.popup__input',
-}, (cardId) => {return api.deleteCard(cardId)});
+}, 
+(cardId, cardEl) => {
+  api.deleteCard(cardId)
+    .then(() => {
+      cardEl.remove();
+      confirmPopup.closePopup()
+    })
+    .catch((err) => {
+      alert(`Запрос на удаление карточки не выполнен! Ошибка: ${err}`);
+      console.error(`Запрос на удаление карточки не выполнен! Ошибка: ${err}`);
+    });
+});
 confirmPopup.setEventListeners();

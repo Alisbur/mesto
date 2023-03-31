@@ -14,12 +14,12 @@ export default class UserInfo {
   }
 
   //Метод установки данных профиля в соответствующие поля на странице
-  setUserInfo ({ name, prof }) {
+  setUserInfo ({ name = 'пусто', prof = 'пусто' }) {
     this._nameField.textContent = name;
     this._profField.textContent = prof;
   }
 
-  setUserAvatar({ link }) {
+  setUserAvatar({ link = 'https://avatars.mds.yandex.net/i?id=3a9814029dc1d72f46dca6dcb09f79015c9ec8ad-8254957-images-thumbs&n=13'}) {
     this._avatar.style['background-image'] = `url(${link})`;
   }
 }

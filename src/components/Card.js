@@ -35,28 +35,16 @@ export default class Card {
   }
 
   //Хендлер нажатия на иконку сердечка
-  _handleLikeClick = (evt) => {
-    if (this._isLikedByMe) {
-      this._deleteLike(this._cardId)
-        .then((res) => {
-          this.setLikes(res.likes.length);
-          evt.target.classList.toggle('elements__like-button_active');
-          this._isLikedByMe = !this._isLikedByMe;
-        })
-    } else {
-      this._putLike(this._cardId)
-        .then((res) => {
-          this.setLikes(res.likes.length);
-          evt.target.classList.toggle('elements__like-button_active');
-          this._isLikedByMe = !this._isLikedByMe;
-        });
-    }
+  _handleLikeClick = () => {
+    if (this._isLikedByMe) 
+      this._deleteLike(this._cardId, this);
+    else 
+      this._putLike(this._cardId, this);
   }
   
   //Метод установки слушателей событий на карточку
   _setEventListeners = () => {
     this._likeBtn.addEventListener('click', this._handleLikeClick);
-
     this._isMine
       ? this._delBtn.addEventListener('click', this._handleRemoveClick)
       : this._delBtn.style.display = 'none';
@@ -64,13 +52,13 @@ export default class Card {
   }
 
   //Метод добавления количества лайков и установки актуального состояния иконки сердечка
-  setLikes(likes = this._likes) {
-    if (likes<=9999) this._likesCounter.textContent = `${likes}`;
-    else if (likes>1000000000) this._likesCounter.textContent = "> 1M";
-    else if (likes>9999999) this._likesCounter.textContent = `${Math.round(likes/100000)/10} m`;
-    else this._likesCounter.textContent = `${Math.round(likes/100)/10} K`;
-    if (this._isLikedByMe)
+  setLikes(likes = this._likes, isLiked = this._isLikedByMe) {
+    this._likesCounter.textContent = likes;
+    if (isLiked)
       this._likeBtn.classList.add('elements__like-button_active');
+    else 
+      this._likeBtn.classList.remove('elements__like-button_active');
+    this._isLikedByMe = isLiked;
   }
 
   //Метод добавления контента и поведения новой карточки

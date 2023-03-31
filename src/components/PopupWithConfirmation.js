@@ -10,9 +10,7 @@ export default class PopupWithConfirmation extends Popup {
   //Обработчик сабмита формы
   _handlerSubmitForm = (evt) => {
     evt.preventDefault();
-    this._submitCallBack(this._cardId, this._cardEl)
-      .then(() => {console.log(this._cardEl);this._cardEl.remove()})
-      .finally(() => this.closePopup());
+    this._submitCallBack(this._cardId, this._cardEl);
   }
 
   //Метод установки слушателей событий на попап и форму
